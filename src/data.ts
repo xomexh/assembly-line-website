@@ -103,7 +103,7 @@ export const benchNotes = [
     tag: 'Buying better',
     title: 'Why a balanced PC usually beats a benchmark-chasing one',
     summary:
-      'The smartest build puts money where your actual games and apps can use it—not where a spec sheet looks loudest.',
+      'The smartest build puts money where your actual games and apps can use it, not where a spec sheet looks loudest.',
     readTime: '4 min read',
   },
   {

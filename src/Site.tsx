@@ -1,10 +1,13 @@
 import {
+  lazy,
+  Suspense,
   type FormEvent,
   type ReactNode,
   useEffect,
   useRef,
   useState,
 } from 'react';
+import { WhatsappLogo } from '@phosphor-icons/react';
 import {
   Link,
   NavLink,
@@ -17,6 +20,14 @@ import './site.css';
 const primaryWhatsappUrl = whatsappUrl(
   'Hi Assembly Line, I would like help planning a custom PC.',
 );
+
+const ProductMediaMotion = lazy(() => import('./ProductMediaMotion.tsx'));
+
+const navigationItems = [
+  { to: '/builds', label: 'Builds' },
+  { to: '/offers', label: 'Offers' },
+  { to: '/news', label: 'Bench notes' },
+] as const;
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return <span aria-hidden="true" className={diagonal ? 'arrow arrow--diagonal' : 'arrow'}>→</span>;
@@ -84,40 +95,138 @@ function Reveal({
 
 function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+
+    let frame = 0;
+    let docked = false;
+
+    const update = () => {
+      frame = 0;
+      if (!docked && window.scrollY > 96) docked = true;
+      if (docked && window.scrollY < 36) docked = false;
+      header.classList.toggle('is-docked', docked);
+    };
+
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const previousFocus = document.activeElement;
+    const inertTargets = document.querySelectorAll<HTMLElement>(
+      '.site-frame > main, .site-frame > .floating-whatsapp, .site-frame > .site-footer',
+    );
+    const focusTimer = window.setTimeout(() => {
+      menuRef.current?.querySelector<HTMLAnchorElement>('a')?.focus();
+    }, 80);
+
+    document.body.classList.add('is-menu-open');
+    inertTargets.forEach((target) => target.setAttribute('inert', ''));
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const focusable = [
+        toggleRef.current,
+        ...Array.from(menuRef.current?.querySelectorAll<HTMLAnchorElement>('a') ?? []),
+      ].filter((element): element is HTMLButtonElement | HTMLAnchorElement => element !== null);
+      const first = focusable[0];
+      const last = focusable.at(-1);
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      window.clearTimeout(focusTimer);
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.classList.remove('is-menu-open');
+      inertTargets.forEach((target) => target.removeAttribute('inert'));
+      if (previousFocus instanceof HTMLElement) previousFocus.focus();
+    };
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header className="site-header">
-      <div className="site-header__inner shell">
-        <Link className="brand" to="/" aria-label="Assembly Line home">
-          <img src="/brand-mark.webp" width="32" height="39" alt="" />
-          <span className="brand__wordmark">Assembly Line</span>
-        </Link>
+    <>
+      <header ref={headerRef} className="site-header" data-adaptive-header>
+        <div className="site-header__inner">
+          <Link className="brand" to="/" aria-label="Assembly Line home">
+            <span className="brand__mark" aria-hidden="true" />
+            <span className="brand__wordmark">Assembly Line</span>
+          </Link>
 
-        <button
-          className="menu-button"
-          type="button"
-          aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
-          aria-expanded={menuOpen}
-          aria-controls="main-navigation"
-          onClick={() => setMenuOpen((current) => !current)}
-        >
-          <MenuIcon open={menuOpen} />
-        </button>
+          <nav className="site-nav" aria-label="Primary navigation">
+            {navigationItems.map((item) => (
+              <NavLink key={item.to} to={item.to}>{item.label}</NavLink>
+            ))}
+            <Link className="site-nav__cta" to="/start">
+              Plan my PC <Arrow />
+            </Link>
+          </nav>
 
-        <nav
-          id="main-navigation"
-          className={`site-nav ${menuOpen ? 'site-nav--open' : ''}`}
-          aria-label="Primary navigation"
-        >
-          <NavLink to="/builds">Builds</NavLink>
-          <NavLink to="/offers">Offers</NavLink>
-          <NavLink to="/news">Bench notes</NavLink>
-          <Link className="site-nav__cta" to="/start">
+          <button
+            ref={toggleRef}
+            className="menu-button"
+            type="button"
+            aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setMenuOpen((current) => !current)}
+          >
+            <MenuIcon open={menuOpen} />
+          </button>
+        </div>
+      </header>
+
+      <div
+        ref={menuRef}
+        id="mobile-navigation"
+        className={`site-mobile-menu ${menuOpen ? 'is-open' : ''}`}
+        aria-hidden={!menuOpen}
+      >
+        <nav className="site-mobile-menu__links" aria-label="Mobile navigation">
+          {navigationItems.map((item) => (
+            <NavLink key={item.to} to={item.to} onClick={closeMenu}>{item.label}</NavLink>
+          ))}
+          <Link className="site-mobile-menu__cta" to="/start" onClick={closeMenu}>
             Plan my PC <Arrow />
           </Link>
         </nav>
+        <p>PC enthusiasts in Bhubaneswar, helping customers across India.</p>
       </div>
-    </header>
+    </>
   );
 }
 
@@ -127,7 +236,7 @@ function SiteFooter() {
       <div className="shell site-footer__top">
         <div>
           <Link className="brand brand--footer" to="/">
-            <img src="/brand-mark.webp" width="38" height="46" alt="" />
+            <span className="brand__mark" aria-hidden="true" />
             <span className="brand__wordmark">Assembly Line</span>
           </Link>
           <p className="site-footer__statement">
@@ -195,8 +304,10 @@ export function SiteLayout() {
         rel="noreferrer"
         aria-label="Chat with Assembly Line on WhatsApp"
       >
-        <span className="floating-whatsapp__dot" />
-        WhatsApp
+        <span>Ask an enthusiast</span>
+        <span className="floating-whatsapp__icon" aria-hidden="true">
+          <WhatsappLogo size={20} weight="fill" />
+        </span>
       </a>
       <SiteFooter />
     </div>
@@ -219,15 +330,15 @@ function BuildImage({ build, eager = false }: { build: Build; eager?: boolean })
   );
 }
 
-function BuildCard({ build, index = 0 }: { build: Build; index?: number }) {
+function BuildCard({ build }: { build: Build }) {
   const url = whatsappUrl(`Hi Assembly Line, I am interested in the ${build.name} starting at ${build.price}. Please help me customise it.`);
 
   return (
     <article className="build-card">
-      <Link to={`/builds#${build.slug}`} className="build-card__image" aria-label={`View ${build.name} details`}>
-        <BuildImage build={build} />
-        <span className="build-card__scan" />
-        <span className="build-card__index">B-{String(index + 1).padStart(2, '0')}</span>
+      <Link to={`/builds#${build.slug}`} className="build-card__media-shell" aria-label={`View ${build.name} details`}>
+        <span className="build-card__image">
+          <BuildImage build={build} />
+        </span>
       </Link>
       <div className="build-card__body">
         <div className="build-card__heading">
@@ -235,7 +346,7 @@ function BuildCard({ build, index = 0 }: { build: Build; index?: number }) {
             <p className="eyebrow eyebrow--compact">{build.family} series</p>
             <h3>{build.name}</h3>
           </div>
-          <p className="build-card__price">from {build.price}</p>
+          <p className="build-card__price"><span>Starting at</span><strong>{build.price}</strong></p>
         </div>
         <p className="build-card__intent">{build.intent}</p>
         <div className="build-card__core">
@@ -281,7 +392,7 @@ export function HomePage() {
   return (
     <>
       <PageMeta
-        title="Assembly Line — Custom PCs, planned with you"
+        title="Assembly Line - Custom PCs, planned with you"
         description="Custom gaming and workstation PCs planned by enthusiasts in Bhubaneswar. Explore builds and start a practical consultation on WhatsApp."
       />
 
@@ -293,7 +404,7 @@ export function HomePage() {
             <span>Not sold to you.</span>
           </h1>
           <p className="hero__lede">
-            Assembly Line is a group of PC enthusiasts who ask what you play, create and care about—then build only what makes sense.
+            Assembly Line is a group of PC enthusiasts who ask what you play, create and care about, then build only what makes sense.
           </p>
           <div className="hero__actions">
             <Link className="button button--primary" to="/start">Plan my PC <Arrow /></Link>
@@ -366,7 +477,7 @@ export function HomePage() {
           <div className="build-showcase__grid">
             {builds.map((build, index) => (
               <Reveal key={build.slug} delay={index * 70}>
-                <BuildCard build={build} index={index} />
+                <BuildCard build={build} />
               </Reveal>
             ))}
           </div>
@@ -383,7 +494,7 @@ export function HomePage() {
         <div className="method__grid">
           {[
             ['01', 'Listen', 'We map your games, apps, monitor, budget and the upgrades you actually expect to make.'],
-            ['02', 'Explain', 'You get a balanced part list with the real trade-offs—where to spend, where to save and why.'],
+            ['02', 'Explain', 'You get a balanced part list with the real trade-offs: where to spend, where to save and why.'],
             ['03', 'Build + stay', 'We assemble, stress-test and tune the machine, then remain available when you need support.'],
           ].map(([number, title, copy], index) => (
             <Reveal className="method-card" delay={index * 90} key={number}>
@@ -485,8 +596,9 @@ export function BuildsPage() {
 
   return (
     <>
+      <Suspense fallback={null}><ProductMediaMotion /></Suspense>
       <PageMeta
-        title="Reference builds — Assembly Line"
+        title="Reference builds - Assembly Line"
         description="Explore Assembly Line reference gaming and workstation builds, then customise the right one with our team on WhatsApp."
       />
       <section className="page-hero page-hero--builds shell">
@@ -518,15 +630,15 @@ export function BuildsPage() {
             const url = whatsappUrl(`Hi Assembly Line, I want to discuss the ${build.name} starting at ${build.price}.`);
             return (
               <article className="catalog-build" id={build.slug} key={build.slug}>
-                <div className="catalog-build__image">
-                  <BuildImage build={build} eager={index === 0} />
-                  <span className="build-card__scan" />
-                  <span className="catalog-build__family">{build.family} series</span>
+                <div className="catalog-build__media-shell">
+                  <div className="catalog-build__image">
+                    <BuildImage build={build} eager={index === 0} />
+                  </div>
                 </div>
                 <div className="catalog-build__content">
                   <div className="catalog-build__title">
-                    <div><p className="eyebrow eyebrow--compact">{build.intent}</p><h2>{build.name}</h2></div>
-                    <p><span>Starting at</span>{build.price}</p>
+                    <div><p className="eyebrow eyebrow--compact">{build.family} series</p><h2>{build.name}</h2><p className="catalog-build__intent">{build.intent}</p></div>
+                    <p className="catalog-build__price"><span>Starting at</span><strong>{build.price}</strong></p>
                   </div>
                   <dl className="spec-list">
                     <div><dt>Processor</dt><dd>{build.cpu}</dd></div>
@@ -555,13 +667,13 @@ export function OffersPage() {
   return (
     <>
       <PageMeta
-        title="Current offers — Assembly Line"
+        title="Current offers - Assembly Line"
         description="See the current Assembly Line custom PC offers and ask our team to check today’s component pricing."
       />
       <section className="page-hero shell">
         <p className="eyebrow">Offers board</p>
         <h1>The right deal<br /><span>earns its place.</span></h1>
-        <p>We publish offers only when the saving helps a good build—not when it pushes the wrong part.</p>
+        <p>We publish offers only when the saving helps a good build, not when it pushes the wrong part.</p>
       </section>
       <section className="offers-page section shell">
         <div className="offer-status-card">
@@ -590,13 +702,13 @@ export function NewsPage() {
   return (
     <>
       <PageMeta
-        title="Bench notes — Assembly Line"
+        title="Bench notes - Assembly Line"
         description="Practical PC buying, building and upgrade notes from the Assembly Line workshop."
       />
       <section className="page-hero shell">
         <p className="eyebrow">Bench notes</p>
         <h1>Less launch noise.<br /><span>More useful context.</span></h1>
-        <p>Short notes about buying, balancing and living with a custom PC—from the people who assemble them.</p>
+        <p>Short notes about buying, balancing and living with a custom PC, written by the people who assemble them.</p>
       </section>
       <section className="notes-page section shell">
         {benchNotes.map((note, index) => (
@@ -651,7 +763,7 @@ export function StartPage() {
   return (
     <>
       <PageMeta
-        title="Plan your custom PC — Assembly Line"
+        title="Plan your custom PC - Assembly Line"
         description="Share your use case and budget with Assembly Line, then continue the conversation with a PC enthusiast on WhatsApp."
       />
       <section className="start-page shell">
@@ -684,7 +796,7 @@ export function StartPage() {
               <option>A mix of uses</option>
             </select>
           </label>
-          <label><span>Comfortable budget *</span><input name="budget" inputMode="text" placeholder="For example, ₹1.2–1.5 lakh" /></label>
+          <label><span>Comfortable budget *</span><input name="budget" inputMode="text" placeholder="For example, ₹1.2-1.5 lakh" /></label>
           <label><span>What should this PC do well? *</span><textarea name="requirements" rows={6} placeholder="Games or apps, monitor resolution, parts you already own, noise or size preferences, and anything else that matters." /></label>
           {error && <p className="form-error" role="alert">{error}</p>}
           <button className="button button--primary button--full" type="submit">Continue in WhatsApp <Arrow /></button>
@@ -738,7 +850,7 @@ export function LegalPage({ type }: { type: keyof typeof legalCopy }) {
   const content = legalCopy[type];
   return (
     <>
-      <PageMeta title={`${content.title} — Assembly Line`} description={content.intro} />
+      <PageMeta title={`${content.title} - Assembly Line`} description={content.intro} />
       <section className="legal-page shell">
         <p className="eyebrow">Assembly Line</p>
         <h1>{content.title}</h1>
@@ -755,7 +867,7 @@ export function LegalPage({ type }: { type: keyof typeof legalCopy }) {
 export function NotFoundPage() {
   return (
     <section className="not-found shell">
-      <PageMeta title="Page not found — Assembly Line" description="This Assembly Line page could not be found." />
+      <PageMeta title="Page not found - Assembly Line" description="This Assembly Line page could not be found." />
       <p className="eyebrow">404 · loose cable</p>
       <h1>This route is not connected.</h1>
       <p>The page may have moved, or the address may be incomplete.</p>
