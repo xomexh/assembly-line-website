@@ -260,36 +260,36 @@ body.is-menu-open {
   display: inline-flex;
   min-height: 2.85rem;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.7rem;
   margin-left: 0.65rem;
-  padding: 0.72rem 0.2rem 0.5rem;
+  border: 1px solid rgba(13, 15, 14, 0.12);
+  border-radius: 999px;
+  padding: 0.48rem 0.55rem 0.48rem 1rem;
   color: var(--ink);
-  transition: color 280ms var(--nav-ease), transform 280ms var(--nav-ease);
+  background: var(--orange);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: background-color 280ms var(--nav-ease), box-shadow 280ms var(--nav-ease), transform 280ms var(--nav-ease);
 }
 
 .site-nav__cta::before {
-  position: absolute;
-  top: 0.25rem;
-  right: 0;
-  left: 0;
-  height: 2px;
-  background: var(--orange);
-  content: '';
-  transform: scaleX(0.28);
-  transform-origin: right;
-  transition: transform 420ms var(--nav-ease);
+  display: none;
 }
 
 .site-nav__cta:hover {
-  color: var(--orange-deep);
+  color: var(--ink);
+  background: #f06a31;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0.65rem 1.5rem rgba(184, 63, 20, 0.18);
   transform: translateY(-2px);
 }
 
-.site-nav__cta:hover::before,
-.site-nav__cta:focus-visible::before,
-.site-nav__cta[aria-current='page']::before {
-  transform: scaleX(1);
-  transform-origin: left;
+.site-nav__cta > .arrow {
+  display: inline-grid;
+  width: 1.85rem;
+  height: 1.85rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(13, 15, 14, 0.1);
 }
 
 .menu-button {
@@ -534,11 +534,11 @@ body.is-menu-open {
 }
 
 .site-header--home .site-nav__cta {
-  color: var(--paper-bright);
+  color: var(--ink);
 }
 
 .site-header--home .site-nav__cta:hover {
-  color: #ff8b59;
+  color: var(--ink);
 }
 
 .site-header--home .menu-button {
@@ -648,7 +648,9 @@ body.is-menu-open {
 }
 
 .portal-title {
+  display: grid;
   width: 100%;
+  gap: 0.035em;
   margin: clamp(3.5rem, 7vh, 6.5rem) 0 auto;
   color: var(--paper-bright);
   font-family: var(--font-display);
@@ -668,7 +670,7 @@ body.is-menu-open {
 .portal-title__line-inner {
   display: inline-flex;
   align-items: center;
-  gap: 0.11em;
+  gap: 0.18em;
   transform-origin: left bottom;
 }
 
@@ -681,34 +683,6 @@ body.is-menu-open {
 .portal-title__line--accent {
   color: var(--portal-orange);
   text-align: right;
-}
-
-.portal-title__window {
-  position: relative;
-  display: inline-block;
-  width: 1.28em;
-  height: 0.55em;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  background: var(--portal-orange);
-  transform: translateY(-0.02em);
-}
-
-.portal-title__window::after {
-  position: absolute;
-  inset: 0;
-  border: 2px solid rgba(232, 90, 33, 0.62);
-  content: '';
-  pointer-events: none;
-}
-
-.portal-title__window img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 62% 52%;
-  filter: saturate(1.08) contrast(1.1);
-  transform: scale(1.18);
 }
 
 .portal-hero__footer {
@@ -835,47 +809,6 @@ body.is-menu-open {
   line-height: 1.25;
   text-align: right;
   text-transform: uppercase;
-}
-
-.portal-marquee {
-  overflow: hidden;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--paper-bright);
-  background: var(--portal-black);
-}
-
-.portal-marquee__track {
-  display: flex;
-  width: max-content;
-  animation: portal-marquee 30s linear infinite;
-}
-
-.portal-marquee__group {
-  display: flex;
-  flex-shrink: 0;
-}
-
-.portal-marquee__group span {
-  display: inline-flex;
-  align-items: center;
-  gap: 2rem;
-  padding: 1.35rem 1rem;
-  font-family: var(--font-display);
-  font-size: clamp(1.75rem, 3.2vw, 3.6rem);
-  letter-spacing: -0.045em;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.portal-marquee__group i {
-  color: var(--portal-orange);
-  font-size: 0.42em;
-  font-style: normal;
-}
-
-@keyframes portal-marquee {
-  to { transform: translateX(-50%); }
 }
 
 .portal-belief {
@@ -1212,72 +1145,20 @@ body.is-menu-open {
   line-height: 1.55;
 }
 
-.portal-review {
+.home-testimonials {
   color: var(--ink);
   background: var(--portal-paper);
 }
 
-.portal-review__inner {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(14, minmax(0, 1fr));
-  gap: 1.25rem;
-  padding-top: clamp(8rem, 13vw, 13rem);
-  padding-bottom: clamp(9rem, 14vw, 14rem);
+.home-testimonials__intro {
+  margin-bottom: clamp(3rem, 5vw, 5rem);
 }
 
-.portal-review__rating {
-  display: flex;
-  grid-column: 1 / span 4;
-  align-items: center;
-  gap: 0.55rem;
-  align-self: start;
+.home-testimonials__hint {
+  display: none;
   color: var(--orange-deep);
   font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.portal-review__quote-mark {
-  grid-column: 5 / span 1;
-  color: rgba(232, 90, 33, 0.38);
-}
-
-.portal-review blockquote {
-  grid-column: 6 / -1;
-  margin: 0;
-  font-size: clamp(2.5rem, 4.5vw, 5.2rem);
-  font-weight: 480;
-  letter-spacing: -0.065em;
-  line-height: 1;
-  text-wrap: pretty;
-}
-
-.portal-review footer {
-  display: grid;
-  grid-column: 6 / span 4;
-  gap: 0.15rem;
-  margin-top: 2.5rem;
-}
-
-.portal-review footer span {
-  color: var(--muted);
-  font-size: 0.78rem;
-}
-
-.portal-review__names {
-  display: flex;
-  grid-column: 1 / -1;
-  flex-wrap: wrap;
-  gap: 0;
-  justify-content: space-between;
-  margin-top: clamp(5rem, 9vw, 9rem);
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: 0.7rem;
-  font-weight: 750;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -1371,13 +1252,24 @@ body.is-menu-open {
   }
 
   .portal-title {
-    margin-top: auto;
-    font-size: clamp(3.35rem, 13.7vw, 6.5rem);
+    gap: 0.075em;
+    margin: auto 0 3.5rem;
+    font-size: clamp(3.2rem, 12.9vw, 6.2rem);
+    letter-spacing: -0.06em;
+    line-height: 0.89;
+  }
+
+  .portal-title__line {
+    padding-block: 0.075em;
   }
 
   .portal-title__line--mixed {
     margin-left: 0;
-    font-size: 0.69em;
+    font-size: 0.72em;
+  }
+
+  .portal-title__line-inner {
+    gap: 0.2em;
   }
 
   .portal-title__line--accent {
@@ -1386,12 +1278,14 @@ body.is-menu-open {
 
   .portal-hero__footer {
     grid-template-columns: 1fr;
-    gap: 1.6rem;
-    margin-top: 2.75rem;
+    gap: 2rem;
+    margin-top: 0;
   }
 
   .portal-hero__footer > p {
     max-width: 30rem;
+    font-size: 1.04rem;
+    line-height: 1.68;
   }
 
   .portal-hero__actions {
@@ -1400,8 +1294,7 @@ body.is-menu-open {
 
   .portal-belief__inner,
   .portal-section-heading,
-  .portal-method__inner,
-  .portal-review__inner {
+  .portal-method__inner {
     grid-template-columns: 1fr;
   }
 
@@ -1411,27 +1304,30 @@ body.is-menu-open {
   .portal-section-heading > div,
   .portal-section-heading > p,
   .portal-method__heading,
-  .portal-method__steps,
-  .portal-review__rating,
-  .portal-review__quote-mark,
-  .portal-review blockquote,
-  .portal-review footer,
-  .portal-review__names {
+  .portal-method__steps {
     grid-column: 1;
   }
 
   .portal-belief__aside {
     max-width: 24rem;
     margin-bottom: 3rem;
+    font-size: 0.9rem;
+    line-height: 1.68;
   }
 
   .portal-belief__statement {
     font-size: clamp(3.5rem, 11.5vw, 6.7rem);
+    letter-spacing: -0.06em;
+    line-height: 0.99;
   }
 
   .portal-belief__footer {
     grid-template-columns: 1fr;
     gap: 2.5rem;
+  }
+
+  .portal-belief__footer > p {
+    line-height: 1.72;
   }
 
   .portal-section-heading {
@@ -1440,6 +1336,8 @@ body.is-menu-open {
 
   .portal-section-heading > p {
     max-width: 35rem;
+    font-size: 1rem;
+    line-height: 1.7;
   }
 
   .portal-builds {
@@ -1474,13 +1372,6 @@ body.is-menu-open {
     width: 100%;
   }
 
-  .portal-review__quote-mark {
-    margin: 3.5rem 0 1.5rem;
-  }
-
-  .portal-review footer {
-    margin-top: 2rem;
-  }
 }
 
 @media (max-width: 580px) {
@@ -1489,22 +1380,20 @@ body.is-menu-open {
   }
 
   .portal-title {
-    font-size: clamp(3rem, 13.2vw, 4.7rem);
-    line-height: 0.82;
+    gap: 0.1em;
+    margin-bottom: 3.25rem;
+    font-size: clamp(2.9rem, 12.15vw, 4.4rem);
+    line-height: 0.92;
   }
 
   .portal-title__line--mixed {
-    font-size: 0.65em;
-  }
-
-  .portal-title__window {
-    width: 1.04em;
+    font-size: 0.72em;
   }
 
   .portal-hero__actions {
     align-items: stretch;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.75rem;
   }
 
   .portal-action {
@@ -1536,12 +1425,6 @@ body.is-menu-open {
     max-width: 6.5rem;
     font-size: 0.55rem;
     text-align: left;
-  }
-
-  .portal-marquee__group span {
-    gap: 1rem;
-    padding-block: 1.05rem;
-    font-size: 1.6rem;
   }
 
   .portal-belief__inner {
@@ -1600,26 +1483,8 @@ body.is-menu-open {
     grid-column: 2;
   }
 
-  .portal-review__inner {
-    padding-top: 6.5rem;
-    padding-bottom: 7.5rem;
-  }
-
-  .portal-review blockquote {
-    font-size: clamp(2.25rem, 10.5vw, 3.7rem);
-  }
-
-  .portal-review__names {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-    margin-top: 5rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .portal-marquee__track {
-    animation-play-state: paused;
+  .home-testimonials__hint {
+    display: inline-block;
   }
 }
 

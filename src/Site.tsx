@@ -404,7 +404,6 @@ function PortalBuild({ build, index }: { build: Build; index: number }) {
 
 export function HomePage() {
   const heroBuild = builds[0];
-  const marqueeLine = 'YOUR PORTAL TO PC MASTER RACE';
 
   return (
     <div className="home-rework">
@@ -428,15 +427,11 @@ export function HomePage() {
           </div>
 
           <h1 id="portal-title" className="portal-title" aria-label="Your portal to PC master race">
-            <span className="portal-title__line"><span className="portal-title__line-inner">Your portal</span></span>
+            <span className="portal-title__line">
+              <span className="portal-title__line-inner"><span>Your</span><span>portal</span></span>
+            </span>
             <span className="portal-title__line portal-title__line--mixed">
-              <span className="portal-title__line-inner">
-                <span>to</span>
-                <span className="portal-title__window" aria-hidden="true">
-                  <BuildImage build={heroBuild} eager />
-                </span>
-                <span>PC master</span>
-              </span>
+              <span className="portal-title__line-inner"><span>to</span><span>PC</span><span>master</span></span>
             </span>
             <span className="portal-title__line portal-title__line--accent"><span className="portal-title__line-inner">race.</span></span>
           </h1>
@@ -462,18 +457,6 @@ export function HomePage() {
           <div className="portal-proof__item"><strong>2,000+</strong><span>customers guided</span></div>
           <div className="portal-proof__item"><strong>Lifetime</strong><span>free tech support</span></div>
           <div className="portal-proof__item"><strong>100%</strong><span>brand-new parts</span></div>
-        </div>
-      </section>
-
-      <section className="portal-marquee" aria-label="Your portal to PC master race">
-        <div className="portal-marquee__track" aria-hidden="true">
-          {[0, 1].map((group) => (
-            <div className="portal-marquee__group" key={group}>
-              {[0, 1, 2].map((item) => (
-                <span key={item}>{marqueeLine}<i>◆</i></span>
-              ))}
-            </div>
-          ))}
         </div>
       </section>
 
@@ -534,18 +517,36 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="portal-review">
-        <div className="shell portal-review__inner">
-          <div className="portal-review__rating"><Star size={17} weight="fill" /> Five-star customer review</div>
-          <Quotes className="portal-review__quote-mark" size={54} weight="fill" aria-hidden="true" />
-          <blockquote>{testimonials[0].quote}</blockquote>
-          <footer>
-            <strong>{testimonials[0].name}</strong>
-            <span>{testimonials[0].context}</span>
-          </footer>
-          <div className="portal-review__names" aria-label="More Assembly Line customers">
-            {testimonials.slice(1).map((testimonial) => (
-              <span key={testimonial.name}>{testimonial.name}</span>
+      <section className="testimonials home-testimonials section section--tinted">
+        <div className="shell">
+          <Reveal>
+            <div className="section-intro home-testimonials__intro">
+              <div>
+                <p className="eyebrow">Customer stories</p>
+                <h2>The part we care about is what happens after the invoice.</h2>
+              </div>
+              <div className="section-intro__aside">
+                <p>Real feedback from people who trusted us with the machine they work and play on every day.</p>
+                <span className="home-testimonials__hint">Swipe to read more →</span>
+              </div>
+            </div>
+          </Reveal>
+          <div className="testimonial-grid" aria-label="Customer testimonials" role="region" tabIndex={0}>
+            {testimonials.map((testimonial, index) => (
+              <Reveal className={`testimonial testimonial--${index + 1}`} delay={index * 70} key={testimonial.name}>
+                <div className="testimonial__topline">
+                  <span className="testimonial__rating"><Star size={15} weight="fill" /> Five-star review</span>
+                  <Quotes className="testimonial__mark" size={30} weight="fill" aria-hidden="true" />
+                </div>
+                <blockquote>{testimonial.quote}</blockquote>
+                <footer>
+                  <span className="testimonial__avatar" aria-hidden="true">{testimonial.initials}</span>
+                  <span>
+                    <strong>{testimonial.name}</strong>
+                    <small>{testimonial.context}</small>
+                  </span>
+                </footer>
+              </Reveal>
             ))}
           </div>
         </div>

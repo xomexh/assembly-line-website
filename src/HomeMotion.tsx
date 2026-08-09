@@ -23,17 +23,12 @@ export default function HomeMotion() {
         duration: 1.15,
         stagger: 0.09,
       }, 0.08)
-      .from('.portal-title__window', {
-        clipPath: 'inset(50% 50% 50% 50%)',
-        scale: 0.78,
-        duration: 1.05,
-      }, 0.42)
       .from('.portal-hero__footer > *', {
         opacity: 0,
         y: 22,
         duration: 0.72,
         stagger: 0.09,
-      }, 0.58);
+      }, 0.48);
 
     gsap.fromTo(
       '.portal-hero__media',
