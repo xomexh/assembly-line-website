@@ -19,7 +19,7 @@ export function LegalPage({ type }: { type: LegalDocument }) {
             </section>
           ))}
         </div>
-        <p className="legal-page__updated">Draft website copy · updated August 2026</p>
+        <p className="legal-page__updated">{content.updated}</p>
       </section>
     </>
   );

@@ -27,7 +27,7 @@
 
 .site-footer__links {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2rem;
   align-self: end;
 }
@@ -47,6 +47,88 @@
 
 .site-footer__links a:hover {
   color: var(--paper-bright);
+}
+
+.site-footer__contact {
+  display: grid;
+  grid-template-columns: 0.9fr 1.3fr 0.9fr;
+  border-top: 1px solid var(--line-light);
+}
+
+.footer-contact {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  min-height: 10.5rem;
+  align-content: center;
+  gap: 0.65rem;
+  border-left: 1px solid var(--line-light);
+  padding: 1.75rem clamp(1.5rem, 3vw, 3.25rem);
+}
+
+.footer-contact:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+.footer-contact:last-child {
+  padding-right: 0;
+}
+
+.footer-contact__label,
+.footer-contact__meta {
+  margin: 0;
+}
+
+.footer-contact__label {
+  color: #ff8b59;
+  font-size: 0.65rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.footer-contact__value,
+.footer-contact__phones a {
+  width: fit-content;
+  color: var(--paper-bright);
+  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  font-weight: 720;
+  letter-spacing: -0.025em;
+  line-height: 1.3;
+  transition: color 220ms ease, transform 320ms var(--nav-ease);
+}
+
+.footer-contact__value {
+  overflow-wrap: anywhere;
+}
+
+.footer-contact__value span {
+  display: inline-block;
+  margin-left: 0.25rem;
+  color: #ff8b59;
+  transition: transform 320ms var(--nav-ease);
+}
+
+.footer-contact__value:is(:hover, :focus-visible),
+.footer-contact__phones a:is(:hover, :focus-visible) {
+  color: #ff8b59;
+  transform: translateX(0.2rem);
+}
+
+.footer-contact__value:is(:hover, :focus-visible) span {
+  transform: translate(0.15rem, -0.15rem);
+}
+
+.footer-contact__phones {
+  display: grid;
+  gap: 0.28rem;
+}
+
+.footer-contact__meta {
+  color: var(--muted-light);
+  font-size: 0.7rem;
+  line-height: 1.45;
 }
 
 .footer-label {
@@ -88,6 +170,23 @@
 
   .site-footer__links {
     max-width: 38rem;
+  }
+
+  .site-footer__contact {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-contact,
+  .footer-contact:first-child,
+  .footer-contact:last-child {
+    min-height: 0;
+    border-top: 1px solid var(--line-light);
+    border-left: 0;
+    padding: 1.75rem 0;
+  }
+
+  .footer-contact:first-child {
+    border-top: 0;
   }
 }
 
