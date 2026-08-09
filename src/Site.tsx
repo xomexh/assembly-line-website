@@ -371,9 +371,11 @@ function BuildImage({
 }
 
 function SplitWords({ children }: { children: string }) {
-  return children.split(' ').map((word, index) => (
+  const words = children.split(' ');
+
+  return words.map((word, index) => (
     <span className="portal-belief__word" data-belief-word key={`${word}-${index}`}>
-      {word}{index < children.split(' ').length - 1 ? '\u00a0' : ''}
+      {word}{index < words.length - 1 ? ' ' : ''}
     </span>
   ));
 }
@@ -403,8 +405,6 @@ function PortalBuild({ build, index }: { build: Build; index: number }) {
 }
 
 export function HomePage() {
-  const heroBuild = builds[0];
-
   return (
     <div className="home-rework">
       <PageMeta
@@ -415,17 +415,19 @@ export function HomePage() {
 
       <section className="portal-hero" aria-labelledby="portal-title">
         <div className="portal-hero__media" aria-hidden="true">
-          <BuildImage build={heroBuild} eager />
+          <img
+            src="/images/hero-bg.jpg"
+            width="1920"
+            height="730"
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+          />
         </div>
         <div className="portal-hero__wash" aria-hidden="true" />
         <div className="portal-hero__grid" aria-hidden="true" />
 
         <div className="shell portal-hero__inner">
-          <div className="portal-hero__kicker">
-            <span>Built with you, not sold to you</span>
-            <span>Bhubaneswar · India-wide</span>
-          </div>
-
           <h1 id="portal-title" className="portal-title" aria-label="Your portal to PC master race">
             <span className="portal-title__line">
               <span className="portal-title__line-inner"><span>Your</span><span>portal</span></span>
@@ -470,7 +472,7 @@ export function HomePage() {
             <p>
               We explain the trade-offs plainly. You leave with a machine you understand—not a longer invoice.
             </p>
-            <Link className="portal-line-link portal-line-link--ink" to="/start">
+            <Link className="portal-belief__cta" to="/start">
               Tell us how you will use it <Arrow diagonal />
             </Link>
           </div>

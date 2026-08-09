@@ -11,24 +11,18 @@ export default function HomeMotion() {
     const intro = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
     intro
-      .from('.portal-hero__kicker > span', {
-        opacity: 0,
-        y: 18,
-        duration: 0.7,
-        stagger: 0.08,
-      })
       .from('.portal-title__line-inner', {
         yPercent: 112,
         rotate: 1.5,
         duration: 1.15,
         stagger: 0.09,
-      }, 0.08)
+      }, 0)
       .from('.portal-hero__footer > *', {
         opacity: 0,
         y: 22,
         duration: 0.72,
         stagger: 0.09,
-      }, 0.48);
+      }, 0.38);
 
     gsap.fromTo(
       '.portal-hero__media',
@@ -56,7 +50,7 @@ export default function HomeMotion() {
       ease: 'power3.out',
       scrollTrigger: {
         trigger: '.portal-proof',
-        start: 'top 88%',
+        start: 'top 98%',
       },
     });
 
