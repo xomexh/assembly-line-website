@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { WhatsappLogo } from '@phosphor-icons/react';
+import { Quotes, Star, WhatsappLogo } from '@phosphor-icons/react';
 import {
   Link,
   NavLink,
@@ -367,7 +367,7 @@ function SectionIntro({
   copy,
   action,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   copy?: string;
   action?: ReactNode;
@@ -375,7 +375,7 @@ function SectionIntro({
   return (
     <div className="section-intro">
       <div>
-        <p className="eyebrow">{eyebrow}</p>
+        {eyebrow && <p className="eyebrow">{eyebrow}</p>}
         <h2>{title}</h2>
       </div>
       <div className="section-intro__aside">
@@ -398,7 +398,6 @@ export function HomePage() {
 
       <section className="hero shell">
         <div className="hero__copy">
-          <p className="eyebrow hero__eyebrow">Custom PCs · Bhubaneswar</p>
           <h1>
             Built with you.<br />
             <span>Not sold to you.</span>
@@ -436,21 +435,16 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="ticker" aria-label="How we build">
-        <div className="ticker__track">
-          <span>Ask better questions</span><i />
-          <span>Balance every part</span><i />
-          <span>Build clean</span><i />
-          <span>Test under load</span><i />
-          <span>Support after delivery</span><i />
-          <span aria-hidden="true">Ask better questions</span><i aria-hidden="true" />
-          <span aria-hidden="true">Balance every part</span><i aria-hidden="true" />
+      <section className="brand-tagline" aria-label="Assembly Line tagline">
+        <div className="shell brand-tagline__inner">
+          <span className="brand-tagline__mark" aria-hidden="true" />
+          <p>Your portal to <strong>PC master race.</strong></p>
+          <span className="brand-tagline__signature">Assembly Line</span>
         </div>
       </section>
 
       <section className="belief section shell">
         <Reveal className="belief__statement">
-          <p className="eyebrow">Our point of view</p>
           <h2>A faster component is not always the right component.</h2>
         </Reveal>
         <Reveal className="belief__copy" delay={120}>
@@ -487,18 +481,16 @@ export function HomePage() {
       <section className="method section shell">
         <Reveal>
           <SectionIntro
-            eyebrow="The Assembly Line way"
             title="Three stages. One person accountable throughout."
           />
         </Reveal>
         <div className="method__grid">
           {[
-            ['01', 'Listen', 'We map your games, apps, monitor, budget and the upgrades you actually expect to make.'],
-            ['02', 'Explain', 'You get a balanced part list with the real trade-offs: where to spend, where to save and why.'],
-            ['03', 'Build + stay', 'We assemble, stress-test and tune the machine, then remain available when you need support.'],
-          ].map(([number, title, copy], index) => (
-            <Reveal className="method-card" delay={index * 90} key={number}>
-              <span className="method-card__number">{number}</span>
+            ['Listen', 'We map your games, apps, monitor, budget and the upgrades you actually expect to make.'],
+            ['Explain', 'You get a balanced part list with the real trade-offs: where to spend, where to save and why.'],
+            ['Build + stay', 'We assemble, stress-test and tune the machine, then remain available when you need support.'],
+          ].map(([title, copy], index) => (
+            <Reveal className="method-card" delay={index * 90} key={title}>
               <h3>{title}</h3>
               <p>{copy}</p>
             </Reveal>
@@ -524,18 +516,23 @@ export function HomePage() {
         <div className="shell">
           <Reveal>
             <SectionIntro
-              eyebrow="From customers"
               title="The part we care about is what happens after the invoice."
             />
           </Reveal>
-          <div className="testimonial-grid">
+          <div className="testimonial-grid" aria-label="Customer testimonials" role="region" tabIndex={0}>
             {testimonials.map((testimonial, index) => (
-              <Reveal className="testimonial" delay={index * 100} key={testimonial.name}>
-                <span className="testimonial__mark">“</span>
+              <Reveal className={`testimonial testimonial--${index + 1}`} delay={index * 70} key={testimonial.name}>
+                <div className="testimonial__topline">
+                  <span className="testimonial__rating"><Star size={15} weight="fill" /> Five-star review</span>
+                  <Quotes className="testimonial__mark" size={30} weight="fill" aria-hidden="true" />
+                </div>
                 <blockquote>{testimonial.quote}</blockquote>
                 <footer>
-                  <strong>{testimonial.name}</strong>
-                  <span>{testimonial.context}</span>
+                  <span className="testimonial__avatar" aria-hidden="true">{testimonial.initials}</span>
+                  <span>
+                    <strong>{testimonial.name}</strong>
+                    <small>{testimonial.context}</small>
+                  </span>
                 </footer>
               </Reveal>
             ))}
@@ -578,7 +575,6 @@ function ConsultationBanner() {
     <section className="consultation-banner section">
       <div className="shell consultation-banner__inner">
         <Reveal>
-          <p className="eyebrow eyebrow--light">Start with a conversation</p>
           <h2>Tell us what the PC needs to do. We will help with the rest.</h2>
         </Reveal>
         <Reveal className="consultation-banner__action" delay={120}>

@@ -88,12 +88,35 @@ export const testimonials = [
     quote:
       'This place is just awesome. I got whatever I was looking for at an affordable price. These people are highly experienced in recommending the best gaming PC.',
     name: 'Santosh Bidhar',
+    initials: 'SB',
     context: 'Gaming PC customer',
+  },
+  {
+    quote:
+      'Will recommend this place if you are looking for a gaming PC at a reasonable price. The guys working there are also really friendly.',
+    name: 'Abhishek Das',
+    initials: 'AD',
+    context: 'Gaming PC customer',
+  },
+  {
+    quote:
+      'Great staff and professionalism at its peak. Highly recommended.',
+    name: 'Wedding Pandas',
+    initials: 'WP',
+    context: 'Business customer',
+  },
+  {
+    quote:
+      'Loved my new PC. It was carefully built in a single day by a very professional and well-organised team. They customise the build as per your budget and needs.',
+    name: 'Pritam Barik',
+    initials: 'PB',
+    context: 'Custom build customer',
   },
   {
     quote:
       'An excellent team with a solution-oriented approach. They listen to your problems patiently and assure a perfect tech solution. A perfect destination for new PC assembly.',
     name: 'The Fotowalla',
+    initials: 'TF',
     context: 'Professional customer',
   },
 ];
