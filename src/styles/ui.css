@@ -1,0 +1,131 @@
+/* Shared typography markers, buttons, arrows, and reveal behavior. */
+
+.eyebrow {
+  margin: 0 0 1.25rem;
+  color: var(--orange-deep);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  display: inline-block;
+  width: 1.9rem;
+  height: 1px;
+  margin-right: 0.7rem;
+  vertical-align: 0.25rem;
+  background: currentColor;
+  content: '';
+}
+
+.eyebrow--compact {
+  margin-bottom: 0.55rem;
+  font-size: 0.63rem;
+}
+
+.eyebrow--compact::before {
+  width: 1rem;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 3.35rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.85rem 1.2rem 0.85rem 1.35rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 320ms var(--nav-ease), background-color 320ms var(--nav-ease), transform 320ms var(--nav-ease);
+}
+
+.button:hover {
+  transform: translateY(-3px);
+}
+
+.button:active {
+  transform: translateY(0) scale(0.985);
+}
+
+.button--primary {
+  color: var(--ink);
+  background: var(--orange);
+}
+
+.button--primary:hover {
+  color: var(--paper-bright);
+  background: var(--orange-deep);
+}
+
+.button--paper {
+  color: var(--ink);
+  background: var(--paper-bright);
+}
+
+.button--paper:hover {
+  color: var(--paper-bright);
+  background: var(--orange-deep);
+}
+
+.button--full {
+  width: 100%;
+}
+
+.arrow {
+  display: inline-block;
+  font-size: 1.15em;
+  line-height: 0;
+  transition: transform 320ms var(--nav-ease);
+}
+
+.button > .arrow {
+  display: inline-grid;
+  width: 1.9rem;
+  height: 1.9rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.button--paper > .arrow {
+  background: rgba(19, 21, 20, 0.07);
+}
+
+a:hover .arrow,
+button:hover .arrow {
+  transform: translateX(0.25rem);
+}
+
+.arrow--diagonal {
+  transform: rotate(-45deg);
+}
+
+a:hover .arrow--diagonal {
+  transform: translate(0.15rem, -0.15rem) rotate(-45deg);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(2rem);
+  transition:
+    opacity 700ms var(--reveal-delay) cubic-bezier(0.2, 0.75, 0.2, 1),
+    transform 700ms var(--reveal-delay) cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 580px) {
+
+  .eyebrow {
+    margin-bottom: 1rem;
+    font-size: 0.65rem;
+  }
+}

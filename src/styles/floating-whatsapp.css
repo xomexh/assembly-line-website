@@ -1,0 +1,101 @@
+/* Persistent WhatsApp contact control. */
+
+.floating-whatsapp {
+  position: fixed;
+  z-index: 20;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  display: flex;
+  width: 3.25rem;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 999px;
+  padding: 0.4rem;
+  color: var(--ink);
+  background: rgba(250, 251, 247, 0.84);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 1rem 3.4rem rgba(52, 60, 55, 0.2);
+  backdrop-filter: blur(18px) saturate(145%);
+  -webkit-backdrop-filter: blur(18px) saturate(145%);
+  font-size: 0.73rem;
+  font-weight: 800;
+  transition:
+    width 520ms var(--nav-ease),
+    gap 520ms var(--nav-ease),
+    padding 520ms var(--nav-ease),
+    box-shadow 320ms var(--nav-ease),
+    transform 320ms var(--nav-ease);
+}
+
+.floating-whatsapp > span:first-child {
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  white-space: nowrap;
+  transform: translateX(0.65rem);
+  transition:
+    max-width 520ms var(--nav-ease),
+    opacity 220ms ease,
+    transform 420ms var(--nav-ease);
+}
+
+.floating-whatsapp:is(:hover, :focus-visible) {
+  width: 11rem;
+  gap: 0.8rem;
+  padding-left: 1rem;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 1.4rem 4rem rgba(52, 60, 55, 0.26);
+  transform: translateY(-0.25rem);
+}
+
+.floating-whatsapp:is(:hover, :focus-visible) > span:first-child {
+  max-width: 7.25rem;
+  opacity: 1;
+  transform: translateX(0);
+  transition-delay: 0ms, 90ms, 70ms;
+}
+
+.floating-whatsapp__icon {
+  display: grid;
+  width: 2.4rem;
+  height: 2.4rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--paper-bright);
+  background: var(--orange);
+  transition: transform 320ms var(--nav-ease);
+}
+
+.floating-whatsapp:is(:hover, :focus-visible) .floating-whatsapp__icon {
+  transform: scale(1.05) rotate(-4deg);
+}
+
+@media (max-width: 580px) {
+
+  .floating-whatsapp {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: 3.25rem;
+    justify-content: center;
+    gap: 0;
+    padding: 0.4rem;
+  }
+
+  .floating-whatsapp:is(:hover, :focus-visible) {
+    width: 3.25rem;
+    gap: 0;
+    padding: 0.4rem;
+    transform: none;
+  }
+
+  .floating-whatsapp > span:first-child {
+    display: none;
+  }
+}

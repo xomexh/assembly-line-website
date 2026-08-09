@@ -1,0 +1,56 @@
+/* Shared interior-page hero treatment. */
+
+.page-hero h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 6.6vw, 7.9rem);
+  font-weight: 700;
+  letter-spacing: -0.065em;
+  line-height: 0.85;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.page-hero h1 span {
+  color: var(--orange);
+}
+
+.page-hero {
+  display: grid;
+  min-height: min(34rem, 68dvh);
+  align-content: end;
+  padding-top: 5.5rem;
+  padding-bottom: clamp(3.75rem, 6vw, 5.5rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.page-hero h1 {
+  max-width: 73rem;
+  font-size: clamp(4rem, 8vw, 9.5rem);
+}
+
+.page-hero > p:last-child {
+  max-width: 37rem;
+  margin: 2.5rem 0 0 auto;
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1.65;
+}
+
+@media (max-width: 580px) {
+
+  .page-hero {
+    min-height: 29rem;
+    padding-top: 4rem;
+  }
+
+  .page-hero h1 {
+    font-size: clamp(2.2rem, 9.2vw, 3.3rem);
+    line-height: 0.9;
+  }
+
+  .page-hero > p:last-child {
+    margin: 2rem 0 0;
+    font-size: 1rem;
+  }
+}

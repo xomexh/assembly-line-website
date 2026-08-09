@@ -1,0 +1,118 @@
+/* Site footer. */
+
+.site-footer {
+  color: var(--paper-bright);
+  background: var(--ink);
+}
+
+.site-footer__top {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 5rem;
+  padding-top: clamp(5rem, 9vw, 9rem);
+  padding-bottom: clamp(5rem, 9vw, 8rem);
+}
+
+.brand--footer {
+  color: var(--paper-bright);
+}
+
+.site-footer__statement {
+  max-width: 39rem;
+  margin: 4rem 0 0;
+  font-size: clamp(2rem, 3.5vw, 4rem);
+  letter-spacing: -0.055em;
+  line-height: 1.06;
+}
+
+.site-footer__links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  align-self: end;
+}
+
+.site-footer__links > div {
+  display: grid;
+  align-content: start;
+  gap: 0.7rem;
+}
+
+.site-footer__links a {
+  width: fit-content;
+  color: var(--muted-light);
+  font-size: 0.8rem;
+  transition: color 180ms ease;
+}
+
+.site-footer__links a:hover {
+  color: var(--paper-bright);
+}
+
+.footer-label {
+  margin: 0 0 0.7rem;
+  color: var(--paper-bright);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.site-footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 1.5rem;
+  border-top: 1px solid var(--line-light);
+  color: var(--muted-light);
+  font-size: 0.7rem;
+}
+
+.site-footer__bottom > div {
+  display: flex;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1100px) {
+
+  .site-footer__top {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+}
+
+@media (max-width: 820px) {
+
+  .site-footer__top {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer__links {
+    max-width: 38rem;
+  }
+}
+
+@media (max-width: 580px) {
+
+  .site-footer__top {
+    gap: 5rem;
+  }
+
+  .site-footer__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 3rem;
+  }
+
+  .site-footer__statement {
+    font-size: 2.25rem;
+  }
+
+  .site-footer__bottom {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .site-footer__bottom > div {
+    flex-wrap: wrap;
+  }
+}

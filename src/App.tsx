@@ -1,14 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
-import {
-  BuildsPage,
-  HomePage,
-  LegalPage,
-  NewsPage,
-  NotFoundPage,
-  OffersPage,
-  SiteLayout,
-  StartPage,
-} from './Site.tsx';
+import { SiteLayout } from './layout/SiteLayout.tsx';
+import { BuildsPage } from './pages/builds/BuildsPage.tsx';
+import { HomePage } from './pages/home/HomePage.tsx';
+import { LegalPage } from './pages/legal/LegalPage.tsx';
+import { NewsPage } from './pages/news/NewsPage.tsx';
+import { NotFoundPage } from './pages/NotFoundPage.tsx';
+import { OffersPage } from './pages/offers/OffersPage.tsx';
+import { StartPage } from './pages/start/StartPage.tsx';
+import './site.css';
 
 export default function App() {
   return (

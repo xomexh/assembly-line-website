@@ -1,0 +1,110 @@
+/* Site tokens, document defaults, layout containers, and accessibility helpers. */
+
+:root {
+  --paper: #f0f1ed;
+  --paper-deep: #e4e6e1;
+  --paper-bright: #fafbf7;
+  --ink: #131514;
+  --ink-soft: #242725;
+  --muted: #606660;
+  --muted-light: #9da39d;
+  --line: rgba(19, 21, 20, 0.16);
+  --line-light: rgba(250, 251, 247, 0.18);
+  --orange: #e55b22;
+  --orange-deep: #b83f14;
+  --focus: #205ecf;
+  --font-display: 'IntegralCF', 'Satoshi', sans-serif;
+  --font-body: 'Satoshi', system-ui, sans-serif;
+  --shell: min(100% - 3rem, 1440px);
+  --header-height: 5rem;
+  --nav-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --nav-capsule-width: 48rem;
+  --nav-capsule-height: 4rem;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.7), transparent 28rem),
+    var(--paper);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.site-frame {
+  min-width: 20rem;
+  overflow-x: clip;
+}
+
+.site-frame > main {
+  padding-top: var(--header-height);
+}
+
+body.is-menu-open {
+  overflow: hidden;
+}
+
+.shell {
+  width: var(--shell);
+  margin-inline: auto;
+}
+
+.section {
+  padding-top: clamp(3.5rem, 5vw, 5rem);
+  padding-bottom: clamp(3.75rem, 5.5vw, 5.5rem);
+}
+
+.section--tinted {
+  background: var(--paper-deep);
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: var(--paper-bright);
+  background: var(--ink);
+  transform: translateY(-180%);
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+
+@media (max-width: 1100px) {
+  :root {
+    --shell: min(100% - 2.5rem, 1440px);
+  }
+}
+
+@media (max-width: 820px) {
+  :root {
+    --shell: min(100% - 2rem, 1440px);
+    --header-height: 4.5rem;
+    --nav-capsule-width: 21.5rem;
+    --nav-capsule-height: 3.875rem;
+  }
+}
+
+@media (max-width: 580px) {
+  :root {
+    --shell: min(100% - 1.25rem, 1440px);
+  }
+
+  .section {
+    padding-top: 4.25rem;
+    padding-bottom: 4.5rem;
+  }
+}

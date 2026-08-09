@@ -1,0 +1,134 @@
+/* Offers page. */
+
+.offer-status-card h2 {
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 5.9rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+
+.live-dot {
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border: 1px solid #ff9361;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 0.3rem rgba(229, 91, 34, 0.15);
+}
+
+.offers-page {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(22rem, 0.85fr);
+  gap: clamp(4rem, 10vw, 10rem);
+  align-items: start;
+}
+
+.offer-status-card {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(2.5rem, 5vw, 5rem);
+  color: var(--paper-bright);
+  background: var(--ink);
+}
+
+.offer-status-card::after {
+  position: absolute;
+  right: -20%;
+  bottom: -50%;
+  width: 34rem;
+  height: 34rem;
+  border-radius: 50%;
+  background: rgba(229, 91, 34, 0.24);
+  filter: blur(5rem);
+  content: '';
+}
+
+.offer-status-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.offer-status-card > div {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.offer-status-card .eyebrow {
+  margin: 0;
+  color: var(--muted-light);
+}
+
+.offer-status-card h2 {
+  margin-top: 8rem;
+  font-size: clamp(2.5rem, 4.5vw, 5rem);
+}
+
+.offer-status-card > p {
+  max-width: 34rem;
+  margin: 2rem 0;
+  color: var(--muted-light);
+  line-height: 1.65;
+}
+
+.value-list {
+  border-top: 1px solid var(--line);
+}
+
+.value-list article {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  column-gap: 1.5rem;
+  padding-block: 2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.value-list article > span {
+  grid-row: span 2;
+  color: var(--orange-deep);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.value-list h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.value-list p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 820px) {
+
+  .offers-page {
+    grid-template-columns: 1fr;
+  }
+
+  .offers-page {
+    gap: 5rem;
+  }
+}
+
+@media (max-width: 580px) {
+
+  .offer-status-card h2 {
+    font-size: clamp(2.45rem, 11vw, 4rem);
+  }
+
+  .offer-status-card {
+    margin-inline: -0.625rem;
+    padding: 2rem 1.25rem 3rem;
+  }
+
+  .offer-status-card h2 {
+    margin-top: 5rem;
+  }
+}
