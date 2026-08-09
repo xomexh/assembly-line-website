@@ -314,18 +314,51 @@ export function SiteLayout() {
   );
 }
 
-function BuildImage({ build, eager = false }: { build: Build; eager?: boolean }) {
+function BuildImage({
+  build,
+  eager = false,
+  reveal = false,
+}: {
+  build: Build;
+  eager?: boolean;
+  reveal?: boolean;
+}) {
+  const imageProps = {
+    width: 800,
+    height: 601,
+    alt: `${build.name} custom PC build`,
+    loading: eager ? 'eager' as const : 'lazy' as const,
+    fetchPriority: eager ? 'high' as const : 'auto' as const,
+    decoding: 'async' as const,
+  };
+
+  if (reveal) {
+    return (
+      <>
+        <img className="build-media__preview" src={build.image} {...imageProps} />
+        {build.imageLarge && (
+          <img
+            className="build-media__detail"
+            src={build.imageLarge}
+            width="1600"
+            height="1202"
+            alt=""
+            aria-hidden="true"
+            loading={eager ? 'eager' : 'lazy'}
+            fetchPriority={eager ? 'high' : 'low'}
+            decoding="async"
+          />
+        )}
+      </>
+    );
+  }
+
   return (
     <img
       src={build.image}
       srcSet={build.imageLarge ? `${build.image} 800w, ${build.imageLarge} 1600w` : undefined}
       sizes={eager ? '(max-width: 720px) 92vw, 52vw' : '(max-width: 720px) 92vw, 42vw'}
-      width="800"
-      height="601"
-      alt={`${build.name} custom PC build`}
-      loading={eager ? 'eager' : 'lazy'}
-      fetchPriority={eager ? 'high' : 'auto'}
-      decoding="async"
+      {...imageProps}
     />
   );
 }
@@ -336,8 +369,8 @@ function BuildCard({ build }: { build: Build }) {
   return (
     <article className="build-card">
       <Link to={`/builds#${build.slug}`} className="build-card__media-shell" aria-label={`View ${build.name} details`}>
-        <span className="build-card__image">
-          <BuildImage build={build} />
+        <span className="build-card__image build-media">
+          <BuildImage build={build} reveal />
         </span>
       </Link>
       <div className="build-card__body">
@@ -627,8 +660,8 @@ export function BuildsPage() {
             return (
               <article className="catalog-build" id={build.slug} key={build.slug}>
                 <div className="catalog-build__media-shell">
-                  <div className="catalog-build__image">
-                    <BuildImage build={build} eager={index === 0} />
+                  <div className="catalog-build__image build-media">
+                    <BuildImage build={build} eager={index === 0} reveal />
                   </div>
                 </div>
                 <div className="catalog-build__content">
