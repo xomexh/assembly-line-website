@@ -22,6 +22,7 @@ const primaryWhatsappUrl = whatsappUrl(
 );
 
 const ProductMediaMotion = lazy(() => import('./ProductMediaMotion.tsx'));
+const HomeMotion = lazy(() => import('./HomeMotion.tsx'));
 
 const navigationItems = [
   { to: '/builds', label: 'Builds' },
@@ -98,6 +99,8 @@ function SiteHeader() {
   const headerRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const location = useLocation();
+  const isHome = location.pathname === '/';
 
   useEffect(() => {
     const header = headerRef.current;
@@ -180,7 +183,11 @@ function SiteHeader() {
 
   return (
     <>
-      <header ref={headerRef} className="site-header" data-adaptive-header>
+      <header
+        ref={headerRef}
+        className={`site-header ${isHome ? 'site-header--home' : ''}`}
+        data-adaptive-header
+      >
         <div className="site-header__inner">
           <Link className="brand" to="/" aria-label="Assembly Line home">
             <span className="brand__mark" aria-hidden="true" />
@@ -213,7 +220,7 @@ function SiteHeader() {
       <div
         ref={menuRef}
         id="mobile-navigation"
-        className={`site-mobile-menu ${menuOpen ? 'is-open' : ''}`}
+        className={`site-mobile-menu ${isHome ? 'site-mobile-menu--home' : ''} ${menuOpen ? 'is-open' : ''}`}
         aria-hidden={!menuOpen}
       >
         <nav className="site-mobile-menu__links" aria-label="Mobile navigation">
@@ -363,243 +370,189 @@ function BuildImage({
   );
 }
 
-function BuildCard({ build }: { build: Build }) {
-  const url = whatsappUrl(`Hi Assembly Line, I am interested in the ${build.name} starting at ${build.price}. Please help me customise it.`);
-
-  return (
-    <article className="build-card">
-      <Link to={`/builds#${build.slug}`} className="build-card__media-shell" aria-label={`View ${build.name} details`}>
-        <span className="build-card__image build-media">
-          <BuildImage build={build} reveal />
-        </span>
-      </Link>
-      <div className="build-card__body">
-        <div className="build-card__heading">
-          <div>
-            <p className="eyebrow eyebrow--compact">{build.family} series</p>
-            <h3>{build.name}</h3>
-          </div>
-          <p className="build-card__price"><span>Starting at</span><strong>{build.price}</strong></p>
-        </div>
-        <p className="build-card__intent">{build.intent}</p>
-        <div className="build-card__core">
-          <span>{build.cpu}</span>
-          <span>{build.gpu}</span>
-        </div>
-        <a className="text-link" href={url} target="_blank" rel="noreferrer">
-          Tune this build with us <Arrow diagonal />
-        </a>
-      </div>
-    </article>
-  );
+function SplitWords({ children }: { children: string }) {
+  return children.split(' ').map((word, index) => (
+    <span className="portal-belief__word" data-belief-word key={`${word}-${index}`}>
+      {word}{index < children.split(' ').length - 1 ? '\u00a0' : ''}
+    </span>
+  ));
 }
 
-function SectionIntro({
-  eyebrow,
-  title,
-  copy,
-  action,
-}: {
-  eyebrow?: string;
-  title: string;
-  copy?: string;
-  action?: ReactNode;
-}) {
+function PortalBuild({ build, index }: { build: Build; index: number }) {
   return (
-    <div className="section-intro">
-      <div>
-        {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h2>{title}</h2>
-      </div>
-      <div className="section-intro__aside">
-        {copy && <p>{copy}</p>}
-        {action}
-      </div>
-    </div>
+    <article className="portal-build" data-portal-build>
+      <Link
+        className="portal-build__link"
+        to={`/builds#${build.slug}`}
+        aria-label={`Explore ${build.name}`}
+      >
+        <div className="portal-build__media build-media">
+          <BuildImage build={build} reveal eager={index === 0} />
+        </div>
+        <span className="portal-build__index" aria-hidden="true">0{index + 1}</span>
+        <div className="portal-build__content">
+          <p>{build.family} series</p>
+          <h3>{build.name}</h3>
+          <span className="portal-build__intent">{build.intent}</span>
+          <span className="portal-build__price">From {build.price}</span>
+        </div>
+        <span className="portal-build__arrow" aria-hidden="true">↗</span>
+      </Link>
+    </article>
   );
 }
 
 export function HomePage() {
   const heroBuild = builds[0];
+  const marqueeLine = 'YOUR PORTAL TO PC MASTER RACE';
 
   return (
-    <>
+    <div className="home-rework">
       <PageMeta
-        title="Assembly Line - Custom PCs, planned with you"
-        description="Custom gaming and workstation PCs planned by enthusiasts in Bhubaneswar. Explore builds and start a practical consultation on WhatsApp."
+        title="Assembly Line — Your portal to PC master race"
+        description="Custom gaming and workstation PCs planned, built and supported by enthusiasts in Bhubaneswar."
       />
+      <Suspense fallback={null}><HomeMotion /></Suspense>
 
-      <section className="hero shell">
-        <div className="hero__copy">
-          <h1>
-            Built with you.<br />
-            <span>Not sold to you.</span>
+      <section className="portal-hero" aria-labelledby="portal-title">
+        <div className="portal-hero__media" aria-hidden="true">
+          <BuildImage build={heroBuild} eager />
+        </div>
+        <div className="portal-hero__wash" aria-hidden="true" />
+        <div className="portal-hero__grid" aria-hidden="true" />
+
+        <div className="shell portal-hero__inner">
+          <div className="portal-hero__kicker">
+            <span>Built with you, not sold to you</span>
+            <span>Bhubaneswar · India-wide</span>
+          </div>
+
+          <h1 id="portal-title" className="portal-title" aria-label="Your portal to PC master race">
+            <span className="portal-title__line"><span className="portal-title__line-inner">Your portal</span></span>
+            <span className="portal-title__line portal-title__line--mixed">
+              <span className="portal-title__line-inner">
+                <span>to</span>
+                <span className="portal-title__window" aria-hidden="true">
+                  <BuildImage build={heroBuild} eager />
+                </span>
+                <span>PC master</span>
+              </span>
+            </span>
+            <span className="portal-title__line portal-title__line--accent"><span className="portal-title__line-inner">race.</span></span>
           </h1>
-          <p className="hero__lede">
-            Assembly Line is a group of PC enthusiasts who ask what you play, create and care about, then build only what makes sense.
-          </p>
-          <div className="hero__actions">
-            <Link className="button button--primary" to="/start">Plan my PC <Arrow /></Link>
-            <Link className="text-link text-link--large" to="/builds">See the builds <Arrow diagonal /></Link>
-          </div>
-          <div className="hero__proof" aria-label="Assembly Line customer benefits">
-            <div><strong>2,000+</strong><span>customers guided</span></div>
-            <div><strong>Lifetime</strong><span>free tech support</span></div>
-            <div><strong>100%</strong><span>brand-new parts</span></div>
-          </div>
-        </div>
 
-        <div className="hero-stage" aria-label={`${heroBuild.name}, featured custom PC`}>
-          <div className="hero-stage__grid" />
-          <div className="hero-stage__image">
-            <BuildImage build={heroBuild} eager />
-            <span className="hero-stage__scan" />
-          </div>
-          <div className="hero-stage__note hero-stage__note--top">
-            <span>Current reference</span>
-            <strong>{heroBuild.name}</strong>
-          </div>
-          <div className="hero-stage__note hero-stage__note--bottom">
-            <span>{heroBuild.gpu}</span>
-            <span>{heroBuild.cpu}</span>
-          </div>
-          <span className="hero-stage__corner hero-stage__corner--one" />
-          <span className="hero-stage__corner hero-stage__corner--two" />
-        </div>
-      </section>
-
-      <section className="brand-tagline" aria-label="Assembly Line tagline">
-        <div className="shell brand-tagline__inner">
-          <span className="brand-tagline__mark" aria-hidden="true" />
-          <p>Your portal to <strong>PC master race.</strong></p>
-          <span className="brand-tagline__signature">Assembly Line</span>
-        </div>
-      </section>
-
-      <section className="belief section shell">
-        <Reveal className="belief__statement">
-          <h2>A faster component is not always the right component.</h2>
-        </Reveal>
-        <Reveal className="belief__copy" delay={120}>
-          <p>
-            Random sales advice starts with a product. We start with the person using it. Your display, software, upgrade plans, room, noise tolerance and budget all change the right answer.
-          </p>
-          <p>
-            So we explain the trade-offs plainly. You leave with a machine you understand, not just a longer invoice.
-          </p>
-          <Link className="text-link" to="/start">Tell us how you will use it <Arrow diagonal /></Link>
-        </Reveal>
-      </section>
-
-      <section className="build-showcase section section--tinted">
-        <div className="shell">
-          <Reveal>
-            <SectionIntro
-              eyebrow="Reference builds"
-              title="A useful place to start. Never a box you are stuck in."
-              copy="Each configuration is a conversation starter. We can tune performance, acoustics, aesthetics and cost around you."
-              action={<Link className="text-link" to="/builds">View all details <Arrow diagonal /></Link>}
-            />
-          </Reveal>
-          <div className="build-showcase__grid">
-            {builds.map((build, index) => (
-              <Reveal key={build.slug} delay={index * 70}>
-                <BuildCard build={build} />
-              </Reveal>
-            ))}
+          <div className="portal-hero__footer">
+            <p>
+              We ask what you play, create and care about—then design the machine around the answer.
+            </p>
+            <div className="portal-hero__actions">
+              <Link className="portal-action" to="/start">
+                Start your build <Arrow />
+              </Link>
+              <Link className="portal-line-link" to="/builds">
+                Explore reference builds <Arrow diagonal />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="method section shell">
-        <Reveal>
-          <SectionIntro
-            title="Three stages. One person accountable throughout."
-          />
-        </Reveal>
-        <div className="method__grid">
-          {[
-            ['Listen', 'We map your games, apps, monitor, budget and the upgrades you actually expect to make.'],
-            ['Explain', 'You get a balanced part list with the real trade-offs: where to spend, where to save and why.'],
-            ['Build + stay', 'We assemble, stress-test and tune the machine, then remain available when you need support.'],
-          ].map(([title, copy], index) => (
-            <Reveal className="method-card" delay={index * 90} key={title}>
-              <h3>{title}</h3>
-              <p>{copy}</p>
-            </Reveal>
+      <section className="portal-proof" aria-label="Assembly Line customer benefits">
+        <div className="shell portal-proof__inner">
+          <div className="portal-proof__item"><strong>2,000+</strong><span>customers guided</span></div>
+          <div className="portal-proof__item"><strong>Lifetime</strong><span>free tech support</span></div>
+          <div className="portal-proof__item"><strong>100%</strong><span>brand-new parts</span></div>
+        </div>
+      </section>
+
+      <section className="portal-marquee" aria-label="Your portal to PC master race">
+        <div className="portal-marquee__track" aria-hidden="true">
+          {[0, 1].map((group) => (
+            <div className="portal-marquee__group" key={group}>
+              {[0, 1, 2].map((item) => (
+                <span key={item}>{marqueeLine}<i>◆</i></span>
+              ))}
+            </div>
           ))}
         </div>
       </section>
 
-      <section className="offers-peek section shell">
-        <Reveal className="offers-peek__panel">
+      <section className="portal-belief">
+        <div className="shell portal-belief__inner">
+          <p className="portal-belief__aside">The fastest part on paper can still be the wrong part for your room, display, software or upgrade path.</p>
+          <h2 className="portal-belief__statement">
+            <SplitWords>A faster component is not always the right component.</SplitWords>
+          </h2>
+          <div className="portal-belief__footer">
+            <p>
+              We explain the trade-offs plainly. You leave with a machine you understand—not a longer invoice.
+            </p>
+            <Link className="portal-line-link portal-line-link--ink" to="/start">
+              Tell us how you will use it <Arrow diagonal />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="portal-builds-section">
+        <div className="shell portal-section-heading">
           <div>
-            <p className="eyebrow eyebrow--light">Offers board</p>
-            <h2>No loud countdowns.<br />Just worthwhile deals when they exist.</h2>
+            <p>Reference builds</p>
+            <h2>A starting point.<br />Never a box.</h2>
           </div>
-          <div className="offers-peek__status">
-            <span className="live-dot" />
-            <p><strong>No public offer is live right now.</strong> We still check current distributor pricing while planning every build.</p>
-            <Link className="text-link text-link--light" to="/offers">Check the offers board <Arrow diagonal /></Link>
-          </div>
-        </Reveal>
+          <p>Open a build to see the thinking, then change anything. Performance, noise, colour and cost all stay on the table.</p>
+        </div>
+        <div className="shell portal-builds" role="region" aria-label="Reference builds" tabIndex={0}>
+          {builds.slice(0, 3).map((build, index) => (
+            <PortalBuild build={build} index={index} key={build.slug} />
+          ))}
+        </div>
+        <div className="shell portal-builds-section__footer">
+          <Link className="portal-line-link" to="/builds">See every configuration <Arrow diagonal /></Link>
+        </div>
       </section>
 
-      <section className="testimonials section section--tinted">
-        <div className="shell">
-          <Reveal>
-            <SectionIntro
-              title="The part we care about is what happens after the invoice."
-            />
-          </Reveal>
-          <div className="testimonial-grid" aria-label="Customer testimonials" role="region" tabIndex={0}>
-            {testimonials.map((testimonial, index) => (
-              <Reveal className={`testimonial testimonial--${index + 1}`} delay={index * 70} key={testimonial.name}>
-                <div className="testimonial__topline">
-                  <span className="testimonial__rating"><Star size={15} weight="fill" /> Five-star review</span>
-                  <Quotes className="testimonial__mark" size={30} weight="fill" aria-hidden="true" />
-                </div>
-                <blockquote>{testimonial.quote}</blockquote>
-                <footer>
-                  <span className="testimonial__avatar" aria-hidden="true">{testimonial.initials}</span>
-                  <span>
-                    <strong>{testimonial.name}</strong>
-                    <small>{testimonial.context}</small>
-                  </span>
-                </footer>
+      <section className="portal-method">
+        <div className="shell portal-method__inner">
+          <div className="portal-method__heading">
+            <span>One enthusiast with you throughout</span>
+            <h2>We listen.<br />We explain.<br /><em>Then</em> we build.</h2>
+          </div>
+          <div className="portal-method__steps">
+            {[
+              ['Listen', 'Your games, apps, monitor, room, budget and real upgrade plans go on the table.'],
+              ['Explain', 'You see where the money matters, where it does not and what every trade-off changes.'],
+              ['Build + stay', 'We assemble, stress-test and tune the machine, then stay available for lifetime support.'],
+            ].map(([title, copy], index) => (
+              <Reveal className="portal-method__step" delay={index * 80} key={title}>
+                <span>0{index + 1}</span>
+                <h3>{title}</h3>
+                <p>{copy}</p>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="notes-preview section shell">
-        <Reveal>
-          <SectionIntro
-            eyebrow="Bench notes"
-            title="Useful thinking from behind the workbench."
-            action={<Link className="text-link" to="/news">Read every note <Arrow diagonal /></Link>}
-          />
-        </Reveal>
-        <div className="notes-list">
-          {benchNotes.map((note, index) => (
-            <Reveal delay={index * 70} key={note.title}>
-              <article className="note-row">
-                <span className="note-row__index">0{index + 1}</span>
-                <div>
-                  <p className="eyebrow eyebrow--compact">{note.tag}</p>
-                  <h3>{note.title}</h3>
-                </div>
-                <p>{note.summary}</p>
-                <span className="note-row__time">{note.readTime}</span>
-              </article>
-            </Reveal>
-          ))}
+      <section className="portal-review">
+        <div className="shell portal-review__inner">
+          <div className="portal-review__rating"><Star size={17} weight="fill" /> Five-star customer review</div>
+          <Quotes className="portal-review__quote-mark" size={54} weight="fill" aria-hidden="true" />
+          <blockquote>{testimonials[0].quote}</blockquote>
+          <footer>
+            <strong>{testimonials[0].name}</strong>
+            <span>{testimonials[0].context}</span>
+          </footer>
+          <div className="portal-review__names" aria-label="More Assembly Line customers">
+            {testimonials.slice(1).map((testimonial) => (
+              <span key={testimonial.name}>{testimonial.name}</span>
+            ))}
+          </div>
         </div>
       </section>
 
       <ConsultationBanner />
-    </>
+    </div>
   );
 }
 
