@@ -1,0 +1,17 @@
+# Dependencies and build output
+node_modules/
+dist/
+dist-ssr/
+
+# Local configuration and Vercel project metadata
+.env
+.env.*
+!.env.example
+.vercel/
+
+# Logs and OS/editor files
+*.log
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
