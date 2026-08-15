@@ -113,7 +113,14 @@ export function SiteHeader() {
       >
         <div className="site-header__inner">
           <Link className="brand" to="/" aria-label="Assembly Line home">
-            <span className="brand__mark" aria-hidden="true" />
+            <img
+              className="brand__mark"
+              src="/asl-logo.png"
+              width="1573"
+              height="1920"
+              alt=""
+              aria-hidden="true"
+            />
             <span className="brand__wordmark">Assembly Line</span>
           </Link>
 

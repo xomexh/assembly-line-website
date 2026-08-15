@@ -76,12 +76,22 @@ export function HomePage() {
         <div className="shell portal-hero__inner">
           <h1 id="portal-title" className="portal-title" aria-label="Your portal to PC master race">
             <span className="portal-title__line">
-              <span className="portal-title__line-inner"><span>Your</span><span>portal</span></span>
+              <span className="portal-title__line-inner">
+                <span data-portal-title="your">Your</span>
+                <span data-portal-title="portal">portal</span>
+              </span>
             </span>
             <span className="portal-title__line portal-title__line--mixed">
-              <span className="portal-title__line-inner"><span>to</span><span>PC</span><span>master</span></span>
+              <span className="portal-title__line-inner">
+                <span className="portal-title__phrase" data-portal-title="to-pc">
+                  <span>to</span><span>PC</span>
+                </span>
+                <span data-portal-title="master">master</span>
+              </span>
             </span>
-            <span className="portal-title__line portal-title__line--accent"><span className="portal-title__line-inner">race.</span></span>
+            <span className="portal-title__line portal-title__line--accent">
+              <span className="portal-title__line-inner" data-portal-title="race">race.</span>
+            </span>
           </h1>
 
           <div className="portal-hero__footer">

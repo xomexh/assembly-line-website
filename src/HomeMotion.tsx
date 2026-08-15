@@ -8,25 +8,36 @@ export default function HomeMotion() {
   useGSAP(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const intro = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    const titleParts = {
+      your: '[data-portal-title="your"]',
+      portal: '[data-portal-title="portal"]',
+      toPc: '[data-portal-title="to-pc"]',
+      master: '[data-portal-title="master"]',
+      race: '[data-portal-title="race"]',
+    };
+    const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    gsap.set(titleParts.your, { autoAlpha: 0, scale: 0.94 });
+    gsap.set(titleParts.portal, { autoAlpha: 0, xPercent: -48 });
+    gsap.set(titleParts.toPc, { autoAlpha: 0, yPercent: -115 });
+    gsap.set(titleParts.master, { autoAlpha: 0, xPercent: -42 });
+    gsap.set(titleParts.race, { autoAlpha: 0, yPercent: -105 });
 
     intro
-      .from('.portal-title__line-inner', {
-        yPercent: 112,
-        rotate: 1.5,
-        duration: 1.15,
-        stagger: 0.09,
-      }, 0)
-      .from('.portal-hero__footer > *', {
-        opacity: 0,
-        y: 22,
+      .to(titleParts.your, { autoAlpha: 1, scale: 1, duration: 0.9 }, 0)
+      .to(titleParts.portal, { autoAlpha: 1, xPercent: 0, duration: 0.9 }, 0)
+      .to(titleParts.toPc, { autoAlpha: 1, yPercent: 0, duration: 0.9 }, 0)
+      .to(titleParts.master, { autoAlpha: 1, xPercent: 0, duration: 0.9 }, 0)
+      .to(titleParts.race, { autoAlpha: 1, yPercent: 0, duration: 0.9 }, 0)
+      .to('.portal-hero__footer > *', {
+        opacity: 1,
+        y: 0,
         duration: 0.72,
         stagger: 0.09,
-      }, 0.38);
+      }, 0.46);
 
-    gsap.fromTo(
+    gsap.to(
       '.portal-hero__media',
-      { scale: 1.08, opacity: 0 },
       { scale: 1, opacity: 1, duration: 1.7, ease: 'power3.out' },
     );
 

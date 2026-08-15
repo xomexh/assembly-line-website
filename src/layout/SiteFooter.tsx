@@ -11,7 +11,15 @@ export function SiteFooter() {
       <div className="shell site-footer__top">
         <div>
           <Link className="brand brand--footer" to="/">
-            <span className="brand__mark" aria-hidden="true" />
+            <img
+              className="brand__mark"
+              src="/asl-logo.png"
+              width="1573"
+              height="1920"
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+            />
             <span className="brand__wordmark">Assembly Line</span>
           </Link>
           <p className="site-footer__statement">

@@ -107,12 +107,11 @@
 }
 
 .brand__mark {
+  display: block;
   width: 1.55rem;
   height: 1.9rem;
   flex: 0 0 auto;
-  background: var(--orange);
-  mask: url('/brand-mark.webp') center / contain no-repeat;
-  -webkit-mask: url('/brand-mark.webp') center / contain no-repeat;
+  object-fit: contain;
   transition: transform 680ms var(--nav-ease);
 }
 
