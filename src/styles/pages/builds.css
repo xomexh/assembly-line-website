@@ -1,5 +1,133 @@
 /* Reference-build catalog. */
 
+.builds-page {
+  position: relative;
+  isolation: isolate;
+  background-color: transparent;
+  transition: color 520ms var(--nav-ease), background-color 520ms var(--nav-ease);
+}
+
+.builds-page::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(circle at 82% 8%, rgba(229, 91, 34, 0.13), transparent 28rem),
+    linear-gradient(rgba(250, 251, 247, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250, 251, 247, 0.025) 1px, transparent 1px);
+  background-size: auto, 6rem 6rem, 6rem 6rem;
+  content: '';
+  opacity: 0;
+  transition: opacity 620ms var(--nav-ease);
+  pointer-events: none;
+}
+
+.builds-page--onyx {
+  color: #f4f5f0;
+  background-color: #101210;
+}
+
+.builds-page--onyx::before {
+  opacity: 1;
+}
+
+.builds-page .page-hero,
+.builds-page .catalog__bar {
+  transition: border-color 520ms var(--nav-ease);
+}
+
+.builds-page .page-hero > p:last-child,
+.builds-page .catalog__bar > p,
+.builds-page .filter-tabs button {
+  transition: color 420ms var(--nav-ease), border-color 420ms var(--nav-ease), background-color 420ms var(--nav-ease), transform 180ms ease;
+}
+
+.builds-page--onyx .page-hero,
+.builds-page--onyx .catalog__bar {
+  border-color: rgba(250, 251, 247, 0.16);
+}
+
+.builds-page--onyx .page-hero > p:last-child,
+.builds-page--onyx .catalog__bar > p {
+  color: #a3aaa4;
+}
+
+.builds-page--onyx .eyebrow {
+  color: #ff7b43;
+}
+
+body.builds-theme--onyx {
+  background: #101210;
+}
+
+body.builds-theme--onyx .site-frame > main {
+  background: #101210;
+}
+
+body.builds-theme--onyx .site-header {
+  color: var(--paper-bright);
+  background:
+    radial-gradient(circle at 82% 0%, rgba(229, 91, 34, 0.12), transparent 25rem),
+    rgba(13, 15, 14, 0.97);
+}
+
+body.builds-theme--onyx .site-header.is-docked {
+  background: transparent;
+}
+
+body.builds-theme--onyx .site-header::after {
+  background: rgba(250, 251, 247, 0.18);
+}
+
+body.builds-theme--onyx .site-header__inner::before {
+  background:
+    linear-gradient(110deg, rgba(255, 255, 255, 0.1), transparent 38%, rgba(229, 91, 34, 0.1)),
+    rgba(13, 15, 14, 0.08);
+}
+
+body.builds-theme--onyx .site-header.is-docked .site-header__inner {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: linear-gradient(115deg, rgba(46, 48, 46, 0.9), rgba(20, 22, 21, 0.88) 52%, rgba(9, 10, 9, 0.92));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.24),
+    0 1.2rem 3.8rem rgba(0, 0, 0, 0.4);
+}
+
+body.builds-theme--onyx .site-nav > a:not(.site-nav__cta) {
+  color: rgba(250, 251, 247, 0.66);
+}
+
+body.builds-theme--onyx .site-nav > a:not(.site-nav__cta):hover,
+body.builds-theme--onyx .site-nav > a:not(.site-nav__cta)[aria-current='page'] {
+  color: var(--paper-bright);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.builds-theme--onyx .menu-button {
+  border-color: rgba(255, 255, 255, 0.22);
+  color: var(--paper-bright);
+  background: rgba(13, 15, 14, 0.58);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+body.builds-theme--onyx .site-mobile-menu {
+  color: var(--paper-bright);
+  background: rgba(13, 15, 14, 0.98);
+}
+
+body.builds-theme--onyx .site-mobile-menu__links > a {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+body.builds-theme--onyx .site-mobile-menu__links > .site-mobile-menu__cta {
+  color: #ff8b59;
+}
+
+body.builds-theme--onyx .site-mobile-menu > p {
+  color: var(--muted-light);
+}
+
 .catalog-build__media-shell {
   position: relative;
   display: block;
@@ -53,7 +181,11 @@
 }
 
 .filter-tabs button {
+  display: inline-flex;
   min-width: 4.5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
   border: 1px solid var(--line);
   padding: 0.65rem 0.9rem;
   color: var(--muted);
@@ -64,6 +196,25 @@
   transition: color 180ms ease, background-color 180ms ease, transform 180ms ease;
 }
 
+.filter-tabs button[data-family='albus']::before,
+.filter-tabs button[data-family='onyx']::before {
+  width: 0.52rem;
+  height: 0.52rem;
+  flex: 0 0 auto;
+  border: 1px solid rgba(19, 21, 20, 0.24);
+  border-radius: 50%;
+  content: '';
+}
+
+.filter-tabs button[data-family='albus']::before {
+  background: var(--paper-bright);
+}
+
+.filter-tabs button[data-family='onyx']::before {
+  border-color: rgba(250, 251, 247, 0.35);
+  background: #171a18;
+}
+
 .filter-tabs button:hover {
   color: var(--ink);
   transform: translateY(-2px);
@@ -72,6 +223,21 @@
 .filter-tabs button.is-active {
   color: var(--paper-bright);
   background: var(--ink);
+}
+
+.builds-page--onyx .filter-tabs button {
+  border-color: rgba(250, 251, 247, 0.2);
+  color: #a3aaa4;
+}
+
+.builds-page--onyx .filter-tabs button:hover {
+  color: var(--paper-bright);
+}
+
+.builds-page--onyx .filter-tabs button.is-active {
+  border-color: var(--orange);
+  color: var(--ink);
+  background: var(--orange);
 }
 
 .catalog__list {
@@ -99,6 +265,41 @@
 .catalog-build:is(:hover, :focus-within) {
   box-shadow: 0 1.8rem 4.5rem rgba(52, 60, 55, 0.16);
   transform: translateY(-0.25rem);
+}
+
+.catalog-build--onyx {
+  border-color: rgba(250, 251, 247, 0.14);
+  color: #f4f5f0;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(255, 255, 255, 0.055), transparent 22rem),
+    #171a18;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 1.4rem 3.5rem rgba(5, 7, 6, 0.3);
+}
+
+.catalog-build--onyx:is(:hover, :focus-within) {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 2rem 5rem rgba(5, 7, 6, 0.45);
+}
+
+.catalog-build--onyx .catalog-build__media-shell {
+  box-shadow: 0 0 0 1px rgba(250, 251, 247, 0.09);
+}
+
+.catalog-build--onyx .catalog-build__intent,
+.catalog-build--onyx .spec-list dt,
+.catalog-build--onyx .catalog-build__actions > span {
+  color: #a3aaa4;
+}
+
+.catalog-build--onyx .spec-list div {
+  border-color: rgba(250, 251, 247, 0.14);
+}
+
+.catalog-build--onyx .eyebrow {
+  color: #ff7b43;
 }
 
 .catalog-build:nth-child(even) .catalog-build__media-shell {
@@ -147,7 +348,9 @@
 
 .catalog-build__price {
   display: grid;
-  min-width: 10.5rem;
+  flex: 0 0 auto;
+  width: max-content;
+  min-width: 12rem;
   gap: 0.22rem;
   justify-items: end;
   margin: 0;
@@ -220,6 +423,15 @@
   font-size: 0.68rem;
 }
 
+.builds-page--onyx .consultation-banner {
+  color: var(--ink);
+  background: var(--orange);
+}
+
+.builds-page--onyx .consultation-banner__action > span {
+  color: rgba(19, 21, 20, 0.68);
+}
+
 @media (max-width: 1100px) {
 
   .catalog-build {
@@ -281,8 +493,7 @@
   }
 
   .catalog-build__price {
-    width: fit-content;
-    min-width: 9.75rem;
+    min-width: 11rem;
   }
 
   .catalog-build__title h2 {
