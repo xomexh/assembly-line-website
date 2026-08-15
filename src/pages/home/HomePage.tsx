@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Arrow } from '../../components/Arrow.tsx';
 import { BuildImage } from '../../components/BuildImage.tsx';
 import { ConsultationBanner } from '../../components/ConsultationBanner.tsx';
+import { HeroTitle } from '../../components/HeroTitle.tsx';
 import { PageMeta } from '../../components/PageMeta.tsx';
 import { Reveal } from '../../components/Reveal.tsx';
 import { builds, testimonials, type Build } from '../../data.ts';
@@ -74,15 +75,7 @@ export function HomePage() {
         <div className="portal-hero__grid" aria-hidden="true" />
 
         <div className="shell portal-hero__inner">
-          <h1 id="portal-title" className="portal-title" aria-label="Your portal to PC master race">
-            <span className="portal-title__line">
-              <span className="portal-title__line-inner"><span>Your</span><span>portal</span></span>
-            </span>
-            <span className="portal-title__line portal-title__line--mixed">
-              <span className="portal-title__line-inner"><span>to</span><span>PC</span><span>master</span></span>
-            </span>
-            <span className="portal-title__line portal-title__line--accent"><span className="portal-title__line-inner">race.</span></span>
-          </h1>
+          <HeroTitle />
 
           <div className="portal-hero__footer">
             <p>

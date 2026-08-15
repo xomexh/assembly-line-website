@@ -11,7 +11,7 @@ export default function HomeMotion() {
     const intro = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
     intro
-      .from('.portal-title__line-inner', {
+      .from('.portal-title__copy--base .portal-title__line-inner', {
         yPercent: 112,
         rotate: 1.5,
         duration: 1.15,
