@@ -94,6 +94,16 @@
   grid-column: span 6;
 }
 
+.testimonial--6 {
+  min-height: 24rem;
+  grid-column: span 5;
+}
+
+.testimonial--7 {
+  min-height: 24rem;
+  grid-column: span 7;
+}
+
 .testimonial__topline {
   display: flex;
   align-items: center;
@@ -124,6 +134,14 @@
   letter-spacing: -0.03em;
   line-height: 1.32;
   text-wrap: pretty;
+}
+
+.testimonial blockquote p {
+  margin: 0;
+}
+
+.testimonial blockquote p + p {
+  margin-top: 0.8em;
 }
 
 .testimonial--1 blockquote {
@@ -188,7 +206,9 @@
   .testimonial--2,
   .testimonial--3,
   .testimonial--4,
-  .testimonial--5 {
+  .testimonial--5,
+  .testimonial--6,
+  .testimonial--7 {
     min-height: 20rem;
     grid-column: span 1;
     grid-row: auto;
@@ -224,7 +244,9 @@
   .testimonial--2,
   .testimonial--3,
   .testimonial--4,
-  .testimonial--5 {
+  .testimonial--5,
+  .testimonial--6,
+  .testimonial--7 {
     min-height: 22rem;
     flex: 0 0 min(86vw, 22rem);
     scroll-snap-align: start;

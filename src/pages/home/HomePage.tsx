@@ -192,7 +192,11 @@ export function HomePage() {
                   <span className="testimonial__rating"><Star size={15} weight="fill" /> Five-star review</span>
                   <Quotes className="testimonial__mark" size={30} weight="fill" aria-hidden="true" />
                 </div>
-                <blockquote>{testimonial.quote}</blockquote>
+                <blockquote>
+                  {testimonial.quote.split('\n\n').map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </blockquote>
                 <footer>
                   <span className="testimonial__avatar" aria-hidden="true">{testimonial.initials}</span>
                   <span>

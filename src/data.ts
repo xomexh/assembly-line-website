@@ -119,6 +119,20 @@ export const testimonials = [
     initials: 'TF',
     context: 'Professional customer',
   },
+  {
+    quote:
+      'Extremely happy with the product and the customer service provided by assembly line. The pricing is incredible and care given is top notch. Delivery is also very quick and smooth. Highly recommend these guys if you want your perfect build.',
+    name: 'Rhyv Cota',
+    initials: 'RC',
+    context: 'PC customer from Goa',
+  },
+  {
+    quote:
+      'Huge shoutout to the team and Pranay Bhai for making my PC buying experience top-tier. They hooked me with a system that fits exactly what I needed, without trying to upsell me or breaking the bank.\n\nLoved how engaging the whole conversation felt and how he walked me through the pros and cons in a way that actually made sense.\n\nThe whole process was super smooth and educational, cant recommend them enough.',
+    name: 'Sudeep Satyadarshi',
+    initials: 'SS',
+    context: 'PC customer',
+  },
 ];
 
 export const benchNotes = [
