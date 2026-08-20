@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Arrow } from './Arrow.tsx';
+import { BuildToolIcon } from './BuildToolIcon.tsx';
 import { Reveal } from './Reveal.tsx';
 
 export function ConsultationBanner() {
@@ -10,8 +10,8 @@ export function ConsultationBanner() {
           <h2>Tell us what the PC needs to do. We will help with the rest.</h2>
         </Reveal>
         <Reveal className="consultation-banner__action" delay={120}>
-          <Link className="button button--paper" to="/start">
-            Build my brief <Arrow />
+          <Link className="button button--paper build-brief-button" to="/start">
+            Build my brief <BuildToolIcon />
           </Link>
           <span>No payment. No call queue. Opens WhatsApp.</span>
         </Reveal>

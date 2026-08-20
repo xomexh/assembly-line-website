@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { FloatingWhatsapp } from '../components/FloatingWhatsapp.tsx';
+import { MarketAlert } from '../components/MarketAlert.tsx';
 import { SiteFooter } from './SiteFooter.tsx';
 import { SiteHeader } from './SiteHeader.tsx';
 
@@ -22,6 +23,7 @@ export function SiteLayout() {
     <div className="site-frame">
       <a className="skip-link" href="#main-content">Skip to content</a>
       <SiteHeader key={location.pathname} />
+      <MarketAlert />
       <main id="main-content">
         <Outlet />
       </main>

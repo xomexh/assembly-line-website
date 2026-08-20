@@ -51,7 +51,7 @@
 
 .site-footer__contact {
   display: grid;
-  grid-template-columns: 0.9fr 1.3fr 0.9fr;
+  grid-template-columns: 0.85fr 1.25fr 0.9fr 0.85fr;
   border-top: 1px solid var(--line-light);
 }
 
@@ -125,6 +125,27 @@
   gap: 0.28rem;
 }
 
+.footer-contact__hours {
+  display: grid;
+  gap: 0.1rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.footer-contact__hours span {
+  color: var(--paper-bright);
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+.footer-contact__hours strong {
+  color: var(--paper-bright);
+  font-size: clamp(1.35rem, 1.8vw, 1.9rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 780;
+  letter-spacing: -0.035em;
+}
+
 .footer-contact__meta {
   color: var(--muted-light);
   font-size: 0.7rem;
@@ -159,6 +180,19 @@
 
   .site-footer__top {
     grid-template-columns: 0.9fr 1.1fr;
+  }
+
+  .site-footer__contact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-contact:nth-child(n + 3) {
+    border-top: 1px solid var(--line-light);
+  }
+
+  .footer-contact:nth-child(3) {
+    border-left: 0;
+    padding-left: 0;
   }
 }
 

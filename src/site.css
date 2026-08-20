@@ -1,5 +1,6 @@
 @import './styles/foundations.css';
 @import './styles/navigation.css';
+@import './styles/market-alert.css';
 @import './styles/ui.css';
 @import './styles/build-media.css';
 @import './styles/home/shell.css';

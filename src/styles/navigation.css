@@ -106,13 +106,37 @@
   transition: transform 680ms var(--nav-ease);
 }
 
-.brand__mark {
+.brand__marks {
+  position: relative;
   display: block;
   width: 1.55rem;
   height: 1.9rem;
   flex: 0 0 auto;
-  object-fit: contain;
   transition: transform 680ms var(--nav-ease);
+}
+
+.brand__mark {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 280ms var(--nav-ease);
+}
+
+.brand__mark--dark-nav {
+  opacity: 0;
+}
+
+.site-header--home .brand__mark--light-nav,
+body.builds-theme--onyx .brand__mark--light-nav {
+  opacity: 0;
+}
+
+.site-header--home .brand__mark--dark-nav,
+body.builds-theme--onyx .brand__mark--dark-nav {
+  opacity: 1;
 }
 
 .brand__wordmark {
@@ -125,7 +149,7 @@
   white-space: nowrap;
 }
 
-.site-header.is-docked .brand__mark {
+.site-header.is-docked .brand__marks {
   transform: scale(0.86);
 }
 

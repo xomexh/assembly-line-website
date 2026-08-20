@@ -37,6 +37,7 @@ export function SiteHeader() {
       if (!docked && window.scrollY > 96) docked = true;
       if (docked && window.scrollY < 36) docked = false;
       header.classList.toggle('is-docked', docked);
+      document.body.classList.toggle('is-header-docked', docked);
     };
 
     const onScroll = () => {
@@ -50,6 +51,7 @@ export function SiteHeader() {
     return () => {
       window.removeEventListener('scroll', onScroll);
       if (frame) window.cancelAnimationFrame(frame);
+      document.body.classList.remove('is-header-docked');
     };
   }, []);
 
@@ -58,7 +60,7 @@ export function SiteHeader() {
 
     const previousFocus = document.activeElement;
     const inertTargets = document.querySelectorAll<HTMLElement>(
-      '.site-frame > main, .site-frame > .floating-whatsapp, .site-frame > .site-footer',
+      '.site-frame > main, .site-frame > .market-alert, .site-frame > .floating-whatsapp, .site-frame > .site-footer',
     );
     const focusTimer = window.setTimeout(() => {
       menuRef.current?.querySelector<HTMLAnchorElement>('a')?.focus();
@@ -113,14 +115,22 @@ export function SiteHeader() {
       >
         <div className="site-header__inner">
           <Link className="brand" to="/" aria-label="Assembly Line home">
-            <img
-              className="brand__mark"
-              src="/asl-logo.png"
-              width="1573"
-              height="1920"
-              alt=""
-              aria-hidden="true"
-            />
+            <span className="brand__marks" aria-hidden="true">
+              <img
+                className="brand__mark brand__mark--light-nav"
+                src="/asl-logo-black.png"
+                width="208"
+                height="252"
+                alt=""
+              />
+              <img
+                className="brand__mark brand__mark--dark-nav"
+                src="/asl-logo.png"
+                width="1573"
+                height="1920"
+                alt=""
+              />
+            </span>
             <span className="brand__wordmark">Assembly Line</span>
           </Link>
 

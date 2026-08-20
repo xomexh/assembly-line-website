@@ -50,7 +50,7 @@
   min-height: max(42rem, calc(100dvh - 7rem));
   flex-direction: column;
   justify-content: space-between;
-  padding-top: calc(var(--header-height) + clamp(2rem, 4vw, 4rem));
+  padding-top: calc(var(--header-height) + clamp(1rem, 2vw, 2rem));
   padding-bottom: clamp(1.75rem, 3vw, 2.75rem);
 }
 
@@ -70,7 +70,8 @@
 
 .portal-title__line {
   display: block;
-  overflow: hidden;
+  overflow: clip;
+  overflow-clip-margin: 0.1em;
   padding: 0.05em 0.08em 0.05em 0;
 }
 
@@ -282,7 +283,7 @@
   }
 
   .portal-hero__inner {
-    padding-top: calc(var(--header-height) + 2rem);
+    padding-top: calc(var(--header-height) + 0.75rem);
     padding-bottom: 1.65rem;
   }
 
@@ -332,9 +333,9 @@
 @media (max-width: 580px) {
   .portal-title {
     gap: 0.1em;
-    margin-top: clamp(2rem, 5svh, 3.5rem);
+    margin-top: clamp(0.75rem, 3svh, 2rem);
     margin-bottom: auto;
-    font-size: clamp(2.9rem, 12.15vw, 4.4rem);
+    font-size: clamp(2.65rem, 12.15vw, 4.4rem);
     line-height: 0.92;
   }
 

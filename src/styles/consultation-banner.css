@@ -98,6 +98,82 @@
   font-size: 0.75rem;
 }
 
+.build-tool {
+  position: relative;
+  display: inline-grid;
+  width: 1.9rem;
+  height: 1.9rem;
+  flex: 0 0 auto;
+  overflow: hidden;
+  place-items: center;
+  border-radius: 50%;
+  color: currentColor;
+  background: rgba(19, 21, 20, 0.07);
+}
+
+.build-tool__driver {
+  position: absolute;
+  right: 0.3rem;
+  bottom: 0.27rem;
+  transform: translate(-0.1rem, 0.1rem);
+  transform-origin: 82% 18%;
+  will-change: transform;
+}
+
+.build-tool__fastener {
+  position: absolute;
+  top: 0.27rem;
+  right: 0.27rem;
+  width: 0.42rem;
+  height: 0.42rem;
+  border: 1.25px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.72;
+  transform: rotate(-45deg);
+  transform-origin: center;
+  will-change: transform;
+}
+
+.build-tool__fastener::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.22rem;
+  height: 1px;
+  background: currentColor;
+  content: '';
+  transform: translate(-50%, -50%);
+}
+
+.build-brief-button:is(:hover, :focus-visible) .build-tool__driver {
+  animation: build-driver-tighten 720ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.build-brief-button:is(:hover, :focus-visible) .build-tool__fastener {
+  animation: build-fastener-tighten 720ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes build-driver-tighten {
+  0% { transform: translate(-0.1rem, 0.1rem) rotate(0deg); }
+  24% { transform: translate(0, 0) rotate(0deg); }
+  48% { transform: translate(0, 0) rotate(-10deg); }
+  70% { transform: translate(0, 0) rotate(8deg); }
+  86% { transform: translate(0, 0) rotate(-3deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes build-fastener-tighten {
+  0%, 24% { transform: translate(0, 0) rotate(-45deg); }
+  70%, 100% { transform: translate(0.08rem, 0.08rem) rotate(45deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .build-brief-button:is(:hover, :focus-visible) .build-tool__driver,
+  .build-brief-button:is(:hover, :focus-visible) .build-tool__fastener {
+    animation: none;
+  }
+}
+
 @media (max-width: 820px) {
 
   .consultation-banner__inner {

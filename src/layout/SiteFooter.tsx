@@ -64,6 +64,14 @@ export function SiteFooter() {
           </div>
           <p className="footer-contact__meta">Speak directly with the team</p>
         </article>
+        <article className="footer-contact">
+          <p className="footer-contact__label">Office hours</p>
+          <p className="footer-contact__hours">
+            <span>Monday–Saturday</span>
+            <strong>10 am–8 pm</strong>
+          </p>
+          <p className="footer-contact__meta">Plan a visit or call during working hours</p>
+        </article>
       </div>
       <div className="shell site-footer__bottom">
         <span>© {new Date().getFullYear()} Assembly Line</span>
