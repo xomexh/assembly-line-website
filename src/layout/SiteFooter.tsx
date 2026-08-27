@@ -30,6 +30,7 @@ export function SiteFooter() {
           <div>
             <p className="footer-label">Explore</p>
             <Link to="/builds">Reference builds</Link>
+            <Link to="/visualize">Experimental visualizer</Link>
             <Link to="/offers">Current offers</Link>
             <Link to="/news">Bench notes</Link>
           </div>

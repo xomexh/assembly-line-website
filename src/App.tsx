@@ -7,6 +7,7 @@ import { NewsPage } from './pages/news/NewsPage.tsx';
 import { NotFoundPage } from './pages/NotFoundPage.tsx';
 import { OffersPage } from './pages/offers/OffersPage.tsx';
 import { StartPage } from './pages/start/StartPage.tsx';
+import { VisualizePage } from './pages/visualize/VisualizePage.tsx';
 import './site.css';
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="builds" element={<BuildsPage />} />
         <Route path="offers" element={<OffersPage />} />
         <Route path="news" element={<NewsPage />} />
+        <Route path="visualize" element={<VisualizePage />} />
         <Route path="start" element={<StartPage />} />
         <Route path="privacy" element={<LegalPage type="privacy" />} />
         <Route path="terms" element={<LegalPage type="terms" />} />
