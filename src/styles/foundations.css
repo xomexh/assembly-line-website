@@ -1,5 +1,21 @@
 /* Site tokens, document defaults, layout containers, and accessibility helpers. */
 
+@font-face {
+  font-family: 'Formula1 Display';
+  src: url('/fonts/Formula1-Regular_web_0.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula1 Display';
+  src: url('/fonts/Formula1-Bold_web_0.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root {
   --paper: #f0f1ed;
   --paper-deep: #e4e6e1;
@@ -42,6 +58,14 @@ body {
 
 .site-frame > main {
   padding-top: var(--header-height);
+}
+
+.site-frame--sim-racing {
+  background: #090a0b;
+}
+
+.site-frame--sim-racing > main {
+  padding-top: 0;
 }
 
 body.is-menu-open {

@@ -13,7 +13,6 @@ export default function F1Motion() {
     const intro = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
     intro
-      .from('.f1-nav', { opacity: 0, y: -22, duration: 0.7 })
       .fromTo(
         '.f1-hero__media',
         { opacity: 0, clipPath: 'polygon(22% 0, 100% 0, 100% 100%, 45% 100%)', scale: 1.1 },

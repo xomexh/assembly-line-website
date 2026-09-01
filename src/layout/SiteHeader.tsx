@@ -2,11 +2,18 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Arrow } from '../components/Arrow.tsx';
 
-const navigationItems = [
+type NavigationItem = {
+  to: string;
+  label: string;
+  className?: string;
+};
+
+const navigationItems: NavigationItem[] = [
   { to: '/builds', label: 'Builds' },
   { to: '/offers', label: 'Offers' },
   { to: '/news', label: 'Bench notes' },
-] as const;
+  { to: '/sim-racing', label: 'Sim Rig', className: 'site-nav__sim-rig' },
+];
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
@@ -24,6 +31,7 @@ export function SiteHeader() {
   const toggleRef = useRef<HTMLButtonElement>(null);
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const usesDarkNavigation = isHome || location.pathname === '/sim-racing';
 
   useEffect(() => {
     const header = headerRef.current;
@@ -110,7 +118,7 @@ export function SiteHeader() {
     <>
       <header
         ref={headerRef}
-        className={`site-header ${isHome ? 'site-header--home' : ''}`}
+        className={`site-header${isHome ? ' site-header--home' : ''}${usesDarkNavigation ? ' site-header--dark' : ''}`}
         data-adaptive-header
       >
         <div className="site-header__inner">
@@ -136,7 +144,7 @@ export function SiteHeader() {
 
           <nav className="site-nav" aria-label="Primary navigation">
             {navigationItems.map((item) => (
-              <NavLink key={item.to} to={item.to}>{item.label}</NavLink>
+              <NavLink className={item.className} key={item.to} to={item.to}>{item.label}</NavLink>
             ))}
             <Link className="site-nav__cta" to="/start">
               Plan my PC <Arrow />
@@ -160,12 +168,12 @@ export function SiteHeader() {
       <div
         ref={menuRef}
         id="mobile-navigation"
-        className={`site-mobile-menu ${isHome ? 'site-mobile-menu--home' : ''} ${menuOpen ? 'is-open' : ''}`}
+        className={`site-mobile-menu${usesDarkNavigation ? ' site-mobile-menu--dark' : ''}${menuOpen ? ' is-open' : ''}`}
         aria-hidden={!menuOpen}
       >
         <nav className="site-mobile-menu__links" aria-label="Mobile navigation">
           {navigationItems.map((item) => (
-            <NavLink key={item.to} to={item.to} onClick={closeMenu}>{item.label}</NavLink>
+            <NavLink className={item.className} key={item.to} to={item.to} onClick={closeMenu}>{item.label}</NavLink>
           ))}
           <Link className="site-mobile-menu__cta" to="/start" onClick={closeMenu}>
             Plan my PC <Arrow />

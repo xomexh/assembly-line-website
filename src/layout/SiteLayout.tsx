@@ -7,6 +7,7 @@ import { SiteHeader } from './SiteHeader.tsx';
 
 export function SiteLayout() {
   const location = useLocation();
+  const isSimRacing = location.pathname === '/sim-racing';
 
   useEffect(() => {
     if (location.hash) {
@@ -20,7 +21,7 @@ export function SiteLayout() {
   }, [location.hash, location.pathname]);
 
   return (
-    <div className="site-frame">
+    <div className={`site-frame${isSimRacing ? ' site-frame--sim-racing' : ''}`}>
       <a className="skip-link" href="#main-content">Skip to content</a>
       <SiteHeader key={location.pathname} />
       <MarketAlert />

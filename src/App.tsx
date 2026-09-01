@@ -16,13 +16,13 @@ export default function App() {
     <>
       <MetaPixelPageViews />
       <Routes>
-        <Route path="sim-racing" element={<F1Page />} />
-        <Route path="f1" element={<Navigate replace to="/sim-racing" />} />
         <Route element={<SiteLayout />}>
           <Route index element={<HomePage />} />
           <Route path="builds" element={<BuildsPage />} />
           <Route path="offers" element={<OffersPage />} />
           <Route path="news" element={<NewsPage />} />
+          <Route path="sim-racing" element={<F1Page />} />
+          <Route path="f1" element={<Navigate replace to="/sim-racing" />} />
           <Route path="start" element={<StartPage />} />
           <Route path="privacy" element={<LegalPage type="privacy" />} />
           <Route path="terms" element={<LegalPage type="terms" />} />

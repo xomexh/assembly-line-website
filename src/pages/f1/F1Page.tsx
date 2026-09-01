@@ -27,7 +27,6 @@ type TierProduct = {
   width: number;
   height: number;
   alt: string;
-  href: string;
   className?: string;
   includeInBreakdown?: boolean;
 };
@@ -76,7 +75,6 @@ const tiers: Tier[] = [
         width: 1000,
         height: 800,
         alt: 'MSI MAG 27CQ6F 27-inch curved gaming monitor',
-        href: 'https://www.msi.com/Monitor/MAG-27CQ6F',
         className: 'f1-tier-product--monitor-27',
       },
       {
@@ -88,7 +86,6 @@ const tiers: Tier[] = [
         width: 1600,
         height: 1200,
         alt: 'Assembly Line Onyx gaming PC illuminated against a red backdrop',
-        href: '/builds',
         className: 'f1-tier-product--onyx',
         includeInBreakdown: false,
       },
@@ -123,7 +120,6 @@ const tiers: Tier[] = [
         width: 1000,
         height: 800,
         alt: 'MSI MAG 345CQRF E20 34-inch ultrawide curved gaming monitor',
-        href: 'https://www.msi.com/Monitor/MAG-345CQRF-E20',
         className: 'f1-tier-product--monitor-34',
       },
       {
@@ -135,7 +131,6 @@ const tiers: Tier[] = [
         width: 1088,
         height: 932,
         alt: 'Logitech G29 force-feedback racing wheel and three-pedal set',
-        href: 'https://www.logitechg.com/en-in/products/driving/driving-force-racing-wheel.html',
         className: 'f1-tier-product--g29',
       },
     ],
@@ -169,7 +164,6 @@ const tiers: Tier[] = [
         width: 1164,
         height: 776,
         alt: 'Samsung Odyssey OLED G9 ultrawide monitor',
-        href: 'https://www.samsung.com/in/monitors/gaming/odyssey-oled-g9-g93sd-49-inch-oled-dual-qhd-ls49dg930swxxl/',
         className: 'f1-tier-product--g9',
       },
       {
@@ -181,7 +175,6 @@ const tiers: Tier[] = [
         width: 600,
         height: 600,
         alt: 'Thrustmaster Ferrari SF1000 Formula wheel',
-        href: 'https://vishalperipherals.com/products/formulawheel-add-on-ferrari-sf1000-edition?variant=49231172534587',
         className: 'f1-tier-product--sf1000',
       },
       {
@@ -193,7 +186,6 @@ const tiers: Tier[] = [
         width: 1280,
         height: 1280,
         alt: 'Thrustmaster T300RS GT Edition wheel base and T3PA-GT pedal set',
-        href: 'https://www.thrustmaster.com/en-us/products/t300rs-gt-edition/',
         className: 'f1-tier-product--t300',
       },
       {
@@ -205,7 +197,6 @@ const tiers: Tier[] = [
         width: 860,
         height: 860,
         alt: 'White Fanatec ClubSport GT racing cockpit with monitor stand',
-        href: 'https://vishalperipherals.com/collections/simulators-cockpits-accessories/products/fanatec-clubsport-cockpit-monitor-stand-crd-9060002-ww-white',
         className: 'f1-tier-product--cockpit',
       },
     ],
@@ -238,24 +229,6 @@ const games = [
 ] as const;
 
 const immersionWords = 'The rig disappears. The drive takes over.'.split(' ');
-
-function F1Nav() {
-  return (
-    <header className="f1-nav">
-      <Link className="f1-brand" to="/" aria-label="Assembly Line home">
-        <img src="/asl-logo.png" alt="" width="1573" height="1920" />
-        <span>Assembly Line</span>
-      </Link>
-      <nav className="f1-nav__links" aria-label="Sim racing navigation">
-        <a href="#setups">The rigs</a>
-        <a href="#hardware">Hardware</a>
-      </nav>
-      <Link className="f1-button f1-button--small" to="/start">
-        Build yours <ArrowRight weight="bold" />
-      </Link>
-    </header>
-  );
-}
 
 function TierSelector({ activeId, onSelect }: { activeId: TierId; onSelect: (id: TierId) => void }) {
   return (
@@ -352,14 +325,9 @@ function TierConfiguration({ tier }: { tier: Tier }) {
                 <p>{product.detail}</p>
               </div>
               <strong>{product.price}</strong>
-              <a
-                href={product.href}
-                target={product.href.startsWith('http') ? '_blank' : undefined}
-                rel={product.href.startsWith('http') ? 'noreferrer' : undefined}
-                aria-label={`${product.name} product details`}
-              >
+              <Link to="/start" aria-label={`Enquire about ${product.name}`}>
                 <ArrowUpRight weight="bold" />
-              </a>
+              </Link>
             </div>
           </article>
         ))}
@@ -457,10 +425,7 @@ export function F1Page() {
           </filter>
         </defs>
       </svg>
-      <a className="f1-skip" href="#sim-main">Skip to content</a>
-      <F1Nav />
-
-      <main id="sim-main">
+      <div id="sim-main">
         <section className="f1-hero" aria-labelledby="f1-hero-title">
           <div className="f1-hero__media" aria-hidden="true">
             <img
@@ -587,18 +552,7 @@ export function F1Page() {
             </Link>
           </div>
         </section>
-      </main>
-
-      <footer className="f1-footer">
-        <div className="f1-shell">
-          <Link className="f1-brand" to="/">
-            <img src="/asl-logo.png" alt="" width="1573" height="1920" />
-            <span>Assembly Line</span>
-          </Link>
-          <p>Game and hardware trademarks belong to their respective owners.</p>
-          <span>© Assembly Line 2026</span>
-        </div>
-      </footer>
+      </div>
     </div>
   );
 }
