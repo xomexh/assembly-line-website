@@ -1,7 +1,8 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { MetaPixelPageViews } from './components/MetaPixelPageViews.tsx';
 import { SiteLayout } from './layout/SiteLayout.tsx';
 import { BuildsPage } from './pages/builds/BuildsPage.tsx';
+import { F1Page } from './pages/f1/F1Page.tsx';
 import { HomePage } from './pages/home/HomePage.tsx';
 import { LegalPage } from './pages/legal/LegalPage.tsx';
 import { NewsPage } from './pages/news/NewsPage.tsx';
@@ -15,6 +16,8 @@ export default function App() {
     <>
       <MetaPixelPageViews />
       <Routes>
+        <Route path="sim-racing" element={<F1Page />} />
+        <Route path="f1" element={<Navigate replace to="/sim-racing" />} />
         <Route element={<SiteLayout />}>
           <Route index element={<HomePage />} />
           <Route path="builds" element={<BuildsPage />} />
