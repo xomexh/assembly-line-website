@@ -29,6 +29,7 @@ type TierProduct = {
   alt: string;
   href: string;
   className?: string;
+  includeInBreakdown?: boolean;
 };
 
 type Tier = {
@@ -53,10 +54,11 @@ const tiers: Tier[] = [
     statement: 'A focused way into sim racing.',
     description: 'A purpose-built PC and responsive display give new racers everything they need to find their line.',
     target: 'WQHD racing on a responsive 27-inch curved display',
-    packagePrice: '₹1,69,990',
-    pcTotal: '₹1,50,963',
+    packagePrice: '₹1,71,990',
+    pcTotal: '₹1,52,990',
     parts: [
       { category: 'CPU', name: 'AMD Ryzen 5 7500F', price: '₹14,396' },
+      { category: 'Cooler', name: 'DeepCool AG400 G2 Black', price: '₹2,000' },
       { category: 'Motherboard', name: 'MSI B650M GAMING WIFI6E', price: '₹10,099' },
       { category: 'GPU', name: 'MSI GeForce RTX 5060 Ti SHADOW 2X OC PLUS 8GB GDDR7', price: '₹54,280' },
       { category: 'Cabinet', name: 'Ant Esports Crystal Z3 ARGB Black', price: '₹4,366' },
@@ -77,6 +79,19 @@ const tiers: Tier[] = [
         href: 'https://www.msi.com/Monitor/MAG-27CQ6F',
         className: 'f1-tier-product--monitor-27',
       },
+      {
+        role: 'PC system',
+        name: 'Onyx build',
+        detail: 'Assembly Line-built tower · thermally tuned and tested',
+        price: 'Included',
+        image: '/images/builds/onyx-lite-1600.webp',
+        width: 1600,
+        height: 1200,
+        alt: 'Assembly Line Onyx gaming PC illuminated against a red backdrop',
+        href: '/builds',
+        className: 'f1-tier-product--onyx',
+        includeInBreakdown: false,
+      },
     ],
   },
   {
@@ -86,10 +101,11 @@ const tiers: Tier[] = [
     statement: 'More feedback. More commitment.',
     description: 'A stronger PC and display meet a complete Logitech control set for a tactile racing experience.',
     target: 'Ultrawide 200 Hz racing with wheel-and-pedal control',
-    packagePrice: '₹2,99,990',
-    pcTotal: '₹2,36,493',
+    packagePrice: '₹3,05,990',
+    pcTotal: '₹2,42,990',
     parts: [
-      { category: 'CPU', name: 'AMD Ryzen 7 7700X OEM', price: '₹21,476' },
+      { category: 'CPU', name: 'AMD Ryzen 7 7700X', price: '₹21,476' },
+      { category: 'Cooler', name: 'DeepCool LE360 Black', price: '₹6,000' },
       { category: 'Motherboard', name: 'MSI B650 GAMING PLUS WIFI', price: '₹16,048' },
       { category: 'GPU', name: 'SAPPHIRE Pure Radeon RX 9070 XT 16GB GDDR6', price: '₹84,370' },
       { category: 'Cabinet', name: 'Lian Li Lancool 217 INF Black', price: '₹11,208' },
@@ -131,10 +147,11 @@ const tiers: Tier[] = [
     statement: 'Every input. Every kerb. Every tenth.',
     description: 'The flagship system targets native 4K at 60 FPS with Formula control and a full cockpit.',
     target: 'Native 4K at 60 FPS performance target',
-    packagePrice: '₹5,99,990',
-    pcTotal: '₹3,64,812',
+    packagePrice: '₹6,09,000',
+    pcTotal: '₹3,74,990',
     parts: [
-      { category: 'CPU', name: 'AMD Ryzen 7 9800X3D OEM', price: '₹43,070' },
+      { category: 'CPU', name: 'AMD Ryzen 7 9800X3D', price: '₹43,070' },
+      { category: 'Cooler', name: 'DeepCool LM360 Black', price: '₹10,000' },
       { category: 'Motherboard', name: 'MSI MAG X870E GAMING MAX WIFI7', price: '₹22,420' },
       { category: 'GPU', name: 'COLORFUL iGame GeForce RTX 5080 Vulcan OC 16GB-V GDDR7', price: '₹1,71,100' },
       { category: 'Cabinet', name: 'Lian Li Lancool 217 INF Black', price: '₹11,208' },
@@ -335,7 +352,12 @@ function TierConfiguration({ tier }: { tier: Tier }) {
                 <p>{product.detail}</p>
               </div>
               <strong>{product.price}</strong>
-              <a href={product.href} target="_blank" rel="noreferrer" aria-label={`${product.name} product details`}>
+              <a
+                href={product.href}
+                target={product.href.startsWith('http') ? '_blank' : undefined}
+                rel={product.href.startsWith('http') ? 'noreferrer' : undefined}
+                aria-label={`${product.name} product details`}
+              >
                 <ArrowUpRight weight="bold" />
               </a>
             </div>
@@ -372,7 +394,7 @@ function TierConfiguration({ tier }: { tier: Tier }) {
                   <dt>{tier.name} PC</dt>
                   <dd>{tier.pcTotal}</dd>
                 </div>
-                {tier.products.map((product) => (
+                {tier.products.filter((product) => product.includeInBreakdown !== false).map((product) => (
                   <div key={product.name}>
                     <dt>{product.name}</dt>
                     <dd>{product.price}</dd>
