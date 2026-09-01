@@ -54,7 +54,7 @@ const tiers: Tier[] = [
     description: 'A purpose-built PC and responsive display give new racers everything they need to find their line.',
     target: 'WQHD racing on a responsive 27-inch curved display',
     packagePrice: '₹1,71,990',
-    pcTotal: '₹1,52,990',
+    pcTotal: '₹1,56,990',
     parts: [
       { category: 'CPU', name: 'AMD Ryzen 5 7500F', price: '₹14,396' },
       { category: 'Cooler', name: 'DeepCool AG400 G2 Black', price: '₹2,000' },

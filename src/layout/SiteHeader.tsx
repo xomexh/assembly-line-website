@@ -144,7 +144,18 @@ export function SiteHeader() {
 
           <nav className="site-nav" aria-label="Primary navigation">
             {navigationItems.map((item) => (
-              <NavLink className={item.className} key={item.to} to={item.to}>{item.label}</NavLink>
+              <NavLink
+                aria-label={item.className === 'site-nav__sim-rig' ? item.label : undefined}
+                className={item.className}
+                key={item.to}
+                to={item.to}
+              >
+                {item.className === 'site-nav__sim-rig' ? (
+                  <span className="site-nav__sim-rig-label" data-label={item.label}>
+                    {item.label}
+                  </span>
+                ) : item.label}
+              </NavLink>
             ))}
             <Link className="site-nav__cta" to="/start">
               Plan my PC <Arrow />
@@ -173,7 +184,19 @@ export function SiteHeader() {
       >
         <nav className="site-mobile-menu__links" aria-label="Mobile navigation">
           {navigationItems.map((item) => (
-            <NavLink className={item.className} key={item.to} to={item.to} onClick={closeMenu}>{item.label}</NavLink>
+            <NavLink
+              aria-label={item.className === 'site-nav__sim-rig' ? item.label : undefined}
+              className={item.className}
+              key={item.to}
+              to={item.to}
+              onClick={closeMenu}
+            >
+              {item.className === 'site-nav__sim-rig' ? (
+                <span className="site-nav__sim-rig-label" data-label={item.label}>
+                  {item.label}
+                </span>
+              ) : item.label}
+            </NavLink>
           ))}
           <Link className="site-mobile-menu__cta" to="/start" onClick={closeMenu}>
             Plan my PC <Arrow />
