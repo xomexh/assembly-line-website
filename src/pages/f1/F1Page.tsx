@@ -1,12 +1,8 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import {
   ArrowRight,
   ArrowUpRight,
-  Check,
-  DesktopTower,
   Gauge,
-  Monitor,
-  SteeringWheel,
 } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import { PageMeta } from '../../components/PageMeta.tsx';
@@ -14,18 +10,39 @@ import './f1.css';
 
 const F1Motion = lazy(() => import('./F1Motion.tsx'));
 
+type TierId = 'rookie' | 'competizione' | 'corsa';
+
+type PcPart = {
+  category: string;
+  name: string;
+  price: string;
+};
+
+type TierProduct = {
+  role: string;
+  name: string;
+  detail: string;
+  price: string;
+  image: string;
+  width: number;
+  height: number;
+  alt: string;
+  href: string;
+  className?: string;
+};
+
 type Tier = {
-  id: 'rookie' | 'competizione' | 'corsa';
+  id: TierId;
   name: string;
   level: string;
   statement: string;
   description: string;
   target: string;
-  items: Array<{
-    icon: typeof DesktopTower;
-    name: string;
-    detail: string;
-  }>;
+  packagePrice: string;
+  pcTotal: string;
+  parts: PcPart[];
+  products: TierProduct[];
+  compatibilityNote?: string;
 };
 
 const tiers: Tier[] = [
@@ -35,22 +52,30 @@ const tiers: Tier[] = [
     level: 'First lap',
     statement: 'A focused way into sim racing.',
     description: 'A purpose-built PC and responsive display give new racers everything they need to find their line.',
-    target: 'PC component list ready for your final specification',
-    items: [
+    target: 'WQHD racing on a responsive 27-inch curved display',
+    packagePrice: '₹1,69,990',
+    pcTotal: '₹1,50,963',
+    parts: [
+      { category: 'CPU', name: 'AMD Ryzen 5 7500F', price: '₹14,396' },
+      { category: 'Motherboard', name: 'MSI B650M GAMING WIFI6E', price: '₹10,099' },
+      { category: 'GPU', name: 'MSI GeForce RTX 5060 Ti SHADOW 2X OC PLUS 8GB GDDR7', price: '₹54,280' },
+      { category: 'Cabinet', name: 'Ant Esports Crystal Z3 ARGB Black', price: '₹4,366' },
+      { category: 'PSU', name: 'Deepcool PN750D 750W 80+ Gold', price: '₹6,431' },
+      { category: 'RAM', name: 'Patriot Viper Venom 16GB DDR5 6000MHz CL30', price: '₹27,499' },
+      { category: 'SSD', name: 'Crucial P310 1TB Gen4 NVMe M.2 with Heatsink', price: '₹16,399' },
+    ],
+    products: [
       {
-        icon: DesktopTower,
-        name: 'Race-ready PC',
-        detail: 'Final CPU and GPU specification reserved',
-      },
-      {
-        icon: Monitor,
-        name: 'Gaming monitor',
-        detail: 'A high-refresh display selected around the PC',
-      },
-      {
-        icon: Gauge,
-        name: 'Flexible control',
-        detail: 'Controller, keyboard, or your own wheel setup',
+        role: 'Display',
+        name: 'MSI MAG 27CQ6F',
+        detail: '27-inch WQHD · 1500R curved · 180 Hz',
+        price: '₹15,000',
+        image: '/images/f1/msi-mag-27cq6f.webp',
+        width: 1000,
+        height: 800,
+        alt: 'MSI MAG 27CQ6F 27-inch curved gaming monitor',
+        href: 'https://www.msi.com/Monitor/MAG-27CQ6F',
+        className: 'f1-tier-product--monitor-27',
       },
     ],
   },
@@ -60,27 +85,42 @@ const tiers: Tier[] = [
     level: 'Race pace',
     statement: 'More feedback. More commitment.',
     description: 'A stronger PC and display meet a complete Logitech control set for a tactile racing experience.',
-    target: 'Balanced for sustained high-refresh racing',
-    items: [
+    target: 'Ultrawide 200 Hz racing with wheel-and-pedal control',
+    packagePrice: '₹2,99,990',
+    pcTotal: '₹2,36,493',
+    parts: [
+      { category: 'CPU', name: 'AMD Ryzen 7 7700X OEM', price: '₹21,476' },
+      { category: 'Motherboard', name: 'MSI B650 GAMING PLUS WIFI', price: '₹16,048' },
+      { category: 'GPU', name: 'SAPPHIRE Pure Radeon RX 9070 XT 16GB GDDR6', price: '₹84,370' },
+      { category: 'Cabinet', name: 'Lian Li Lancool 217 INF Black', price: '₹11,208' },
+      { category: 'PSU', name: 'Deepcool PN850M 850W 80+ Gold', price: '₹8,614' },
+      { category: 'RAM', name: 'Crucial Pro Overclocking 32GB (16GBx2) DDR5 6000MHz CL36 White', price: '₹54,999' },
+      { category: 'SSD', name: 'Crucial P310 1TB Gen4 NVMe M.2 with Heatsink', price: '₹16,399' },
+    ],
+    products: [
       {
-        icon: DesktopTower,
-        name: 'Performance PC',
-        detail: 'Upgraded component specification reserved',
+        role: 'Display',
+        name: 'MSI MAG 345CQRF E20',
+        detail: '34-inch UWQHD · 1000R curved · 200 Hz',
+        price: '₹28,000',
+        image: '/images/f1/msi-mag-345cqrf-e20.webp',
+        width: 1000,
+        height: 800,
+        alt: 'MSI MAG 345CQRF E20 34-inch ultrawide curved gaming monitor',
+        href: 'https://www.msi.com/Monitor/MAG-345CQRF-E20',
+        className: 'f1-tier-product--monitor-34',
       },
       {
-        icon: Monitor,
-        name: 'Upgraded display',
-        detail: 'More screen, faster response, deeper immersion',
-      },
-      {
-        icon: SteeringWheel,
+        role: 'Control',
         name: 'Logitech G29',
-        detail: 'Force-feedback wheel with paddle shifters',
-      },
-      {
-        icon: Gauge,
-        name: 'Three-pedal set',
-        detail: 'Throttle, brake, and clutch included',
+        detail: 'Dual-motor force feedback · wheel and three pedals',
+        price: '₹29,000',
+        image: '/images/f1/logitech-g29.png',
+        width: 1088,
+        height: 932,
+        alt: 'Logitech G29 force-feedback racing wheel and three-pedal set',
+        href: 'https://www.logitechg.com/en-in/products/driving/driving-force-racing-wheel.html',
+        className: 'f1-tier-product--g29',
       },
     ],
   },
@@ -91,87 +131,70 @@ const tiers: Tier[] = [
     statement: 'Every input. Every kerb. Every tenth.',
     description: 'The flagship system targets native 4K at 60 FPS with Formula control and a full cockpit.',
     target: 'Native 4K at 60 FPS performance target',
-    items: [
+    packagePrice: '₹5,99,990',
+    pcTotal: '₹3,64,812',
+    parts: [
+      { category: 'CPU', name: 'AMD Ryzen 7 9800X3D OEM', price: '₹43,070' },
+      { category: 'Motherboard', name: 'MSI MAG X870E GAMING MAX WIFI7', price: '₹22,420' },
+      { category: 'GPU', name: 'COLORFUL iGame GeForce RTX 5080 Vulcan OC 16GB-V GDDR7', price: '₹1,71,100' },
+      { category: 'Cabinet', name: 'Lian Li Lancool 217 INF Black', price: '₹11,208' },
+      { category: 'PSU', name: 'Deepcool PX1000P 1000W 80+ Platinum', price: '₹15,945' },
+      { category: 'RAM', name: 'Crucial Pro Overclocking 32GB (16GBx2) DDR5 6000MHz CL36 White', price: '₹54,999' },
+      { category: 'SSD', name: 'Crucial P310 1TB Gen4 NVMe M.2 with Heatsink', price: '₹16,399' },
+    ],
+    products: [
       {
-        icon: DesktopTower,
-        name: 'Flagship PC',
-        detail: 'Final 4K component specification reserved',
-      },
-      {
-        icon: Monitor,
+        role: 'Display',
         name: 'Odyssey OLED G9',
-        detail: '49-inch, 32:9, 5120 x 1440, up to 240 Hz',
+        detail: '49-inch DQHD · 32:9 OLED · up to 240 Hz',
+        price: '₹95,000',
+        image: '/images/f1/g9-odessy-wo-bg.png',
+        width: 1164,
+        height: 776,
+        alt: 'Samsung Odyssey OLED G9 ultrawide monitor',
+        href: 'https://www.samsung.com/in/monitors/gaming/odyssey-oled-g9-g93sd-49-inch-oled-dual-qhd-ls49dg930swxxl/',
+        className: 'f1-tier-product--g9',
       },
       {
-        icon: SteeringWheel,
+        role: 'Formula control',
         name: 'Ferrari SF1000',
-        detail: 'Formula wheel on the compatible T300RS GT base',
+        detail: 'Carbon faceplate · 4.3-inch display · magnetic paddles',
+        price: '₹43,000',
+        image: '/images/f1/thrustmaster-sf1000.png',
+        width: 600,
+        height: 600,
+        alt: 'Thrustmaster Ferrari SF1000 Formula wheel',
+        href: 'https://vishalperipherals.com/products/formulawheel-add-on-ferrari-sf1000-edition?variant=49231172534587',
+        className: 'f1-tier-product--sf1000',
       },
       {
-        icon: Gauge,
-        name: 'T300RS GT base',
-        detail: '25 W brushless dual-belt force feedback',
+        role: 'Base + pedals',
+        name: 'T300RS GT Edition',
+        detail: '25 W brushless dual-belt feedback · T3PA-GT pedals',
+        price: '₹40,000',
+        image: '/images/f1/thrustmaster-t300rs-gt.webp',
+        width: 1280,
+        height: 1280,
+        alt: 'Thrustmaster T300RS GT Edition wheel base and T3PA-GT pedal set',
+        href: 'https://www.thrustmaster.com/en-us/products/t300rs-gt-edition/',
+        className: 'f1-tier-product--t300',
       },
       {
-        icon: Gauge,
-        name: 'T3PA-GT pedals',
-        detail: 'Included three-pedal set with metal pedal heads',
-      },
-      {
-        icon: Check,
+        role: 'Cockpit',
         name: 'ClubSport GT cockpit',
-        detail: 'Fixed seating position with monitor stand',
+        detail: 'Rigid driving position · integrated seat and monitor stand',
+        price: '₹49,500',
+        image: '/images/f1/fanatec-cockpit-stand-optimized.webp',
+        width: 860,
+        height: 860,
+        alt: 'White Fanatec ClubSport GT racing cockpit with monitor stand',
+        href: 'https://vishalperipherals.com/collections/simulators-cockpits-accessories/products/fanatec-clubsport-cockpit-monitor-stand-crd-9060002-ww-white',
+        className: 'f1-tier-product--cockpit',
       },
     ],
+    compatibilityNote: 'The Ferrari SF1000 mounts directly to the T300RS GT base through its native screw quick-release system. The T300RS GT set includes the T3PA-GT three-pedal set; fit the SF1000 in place of the supplied GT rim.',
   },
 ];
-
-const hardware = [
-  {
-    role: 'Display',
-    name: 'Odyssey OLED G9',
-    type: 'Samsung 49-inch display',
-    image: '/images/f1/g9-odessy-wo-bg.png',
-    width: 1164,
-    height: 776,
-    alt: 'Samsung Odyssey OLED G9 ultrawide monitor',
-    stats: ['5120 x 1440 DQHD', '32:9 OLED', 'Up to 240 Hz', '0.03 ms GtG'],
-    href: 'https://www.samsung.com/in/monitors/gaming/odyssey-oled-g9-g93sd-49-inch-oled-dual-qhd-ls49dg930swxxl/',
-  },
-  {
-    role: 'Control',
-    name: 'Ferrari SF1000',
-    type: 'Thrustmaster Formula wheel',
-    image: '/images/f1/thrustmaster-sf1000.png',
-    width: 600,
-    height: 600,
-    alt: 'Thrustmaster Ferrari SF1000 Formula wheel',
-    stats: ['4.3-inch display', 'Carbon faceplate', '25 action buttons', 'Magnetic paddles'],
-    href: 'https://vishalperipherals.com/products/formulawheel-add-on-ferrari-sf1000-edition?variant=49231172534587',
-  },
-  {
-    role: 'Base + pedals',
-    name: 'T300RS GT Edition',
-    type: 'Thrustmaster force-feedback racing set',
-    image: '/images/f1/thrustmaster-t300rs-gt.webp',
-    width: 1280,
-    height: 1280,
-    alt: 'Thrustmaster T300RS GT Edition racing wheel base, wheel rim and T3PA-GT three-pedal set',
-    stats: ['25 W brushless motor', 'Dual-belt force feedback', 'T3PA-GT 3-pedal set', 'PC / PS5 / PS4'],
-    href: 'https://www.thrustmaster.com/en-us/products/t300rs-gt-edition/',
-  },
-  {
-    role: 'Chassis',
-    name: 'ClubSport GT',
-    type: 'Fanatec cockpit and stand',
-    image: '/images/f1/fanatec-cockpit-stand-optimized.webp',
-    width: 860,
-    height: 860,
-    alt: 'White Fanatec ClubSport GT racing cockpit with monitor stand',
-    stats: ['Rigid cockpit frame', 'Integrated seat', 'Monitor stand', 'Adjustable driving position'],
-    href: 'https://vishalperipherals.com/collections/simulators-cockpits-accessories/products/fanatec-clubsport-cockpit-monitor-stand-crd-9060002-ww-white',
-  },
-] as const;
 
 const games = [
   {
@@ -217,9 +240,7 @@ function F1Nav() {
   );
 }
 
-function TierSelector() {
-  const [activeId, setActiveId] = useState<Tier['id']>('rookie');
-
+function TierSelector({ activeId, onSelect }: { activeId: TierId; onSelect: (id: TierId) => void }) {
   return (
     <div className="f1-tier-accordion" data-f1-reveal>
       {tiers.map((tier, index) => {
@@ -235,7 +256,7 @@ function TierSelector() {
               className="f1-tier__trigger"
               aria-expanded={isActive}
               aria-controls={`tier-content-${tier.id}`}
-              onClick={() => setActiveId(tier.id)}
+              onClick={() => onSelect(tier.id)}
             >
               <span className="f1-tier__number">0{index + 1}</span>
               <span className="f1-tier__trigger-copy">
@@ -260,19 +281,9 @@ function TierSelector() {
                 {tier.target}
               </strong>
 
-              <div className="f1-tier__items">
-                {tier.items.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div className="f1-tier-item" key={item.name}>
-                      <Icon aria-hidden="true" weight="regular" />
-                      <div>
-                        <strong>{item.name}</strong>
-                        <span>{item.detail}</span>
-                      </div>
-                    </div>
-                  );
-                })}
+              <div className="f1-tier__price">
+                <span>Complete rig</span>
+                <strong>{tier.packagePrice}</strong>
               </div>
             </div>
           </article>
@@ -282,7 +293,114 @@ function TierSelector() {
   );
 }
 
+function TierConfiguration({ tier }: { tier: Tier }) {
+  return (
+    <section
+      className={`f1-tier-config f1-tier-config--${tier.id}`}
+      id="hardware"
+      aria-labelledby={`f1-tier-config-title-${tier.id}`}
+    >
+      <header className="f1-tier-config__header" data-f1-reveal>
+        <div>
+          <p>{tier.name} hardware</p>
+          <h3 id={`f1-tier-config-title-${tier.id}`}>See the setup first.</h3>
+        </div>
+        <div className="f1-tier-config__headline-price" aria-live="polite">
+          <span>Complete rig</span>
+          <strong>{tier.packagePrice}</strong>
+          <small>Configured selling price</small>
+        </div>
+      </header>
+
+      <div className={`f1-tier-products f1-tier-products--${tier.id}`} data-f1-reveal>
+        {tier.products.map((product) => (
+          <article
+            className={`f1-tier-product${product.className ? ` ${product.className}` : ''}`}
+            key={product.name}
+          >
+            <div className="f1-tier-product__media">
+              <span>{product.role}</span>
+              <img
+                src={product.image}
+                alt={product.alt}
+                width={product.width}
+                height={product.height}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div className="f1-tier-product__copy">
+              <div>
+                <h4>{product.name}</h4>
+                <p>{product.detail}</p>
+              </div>
+              <strong>{product.price}</strong>
+              <a href={product.href} target="_blank" rel="noreferrer" aria-label={`${product.name} product details`}>
+                <ArrowUpRight weight="bold" />
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      {tier.compatibilityNote && (
+        <p className="f1-compatibility-note">{tier.compatibilityNote}</p>
+      )}
+
+      <section className="f1-build-sheet" aria-labelledby={`f1-build-sheet-title-${tier.id}`} data-f1-reveal>
+        <header className="f1-build-sheet__header">
+          <p>PC configuration</p>
+          <h3 id={`f1-build-sheet-title-${tier.id}`}>Under the skin.</h3>
+          <span>The complete specification inside the {tier.name} PC.</span>
+        </header>
+
+        <div className="f1-build-sheet__layout">
+          <div className="f1-build-parts" role="list" aria-label={`${tier.name} PC components`}>
+            {tier.parts.map((part) => (
+              <div className="f1-build-part" role="listitem" key={part.category}>
+                <span>{part.category}</span>
+                <strong>{part.name}</strong>
+              </div>
+            ))}
+          </div>
+
+          <aside className="f1-build-summary" aria-label={`${tier.name} pricing summary`}>
+            <div className="f1-build-summary__section">
+              <h4>Package breakdown</h4>
+              <dl>
+                <div className="is-pc-cost">
+                  <dt>{tier.name} PC</dt>
+                  <dd>{tier.pcTotal}</dd>
+                </div>
+                {tier.products.map((product) => (
+                  <div key={product.name}>
+                    <dt>{product.name}</dt>
+                    <dd>{product.price}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+
+            <div className="f1-build-summary__rig-total">
+              <span>{tier.name} rig</span>
+              <strong>{tier.packagePrice}</strong>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </section>
+  );
+}
+
 export function F1Page() {
+  const [activeTierId, setActiveTierId] = useState<TierId>('rookie');
+  const activeTier = tiers.find((tier) => tier.id === activeTierId) ?? tiers[0];
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+    return () => window.cancelAnimationFrame(frame);
+  }, [activeTierId]);
+
   return (
     <div className="f1-page">
       <PageMeta
@@ -389,94 +507,50 @@ export function F1Page() {
               <p>Three ways to race</p>
               <h2 id="f1-setups-title">Choose how deep you want to go.</h2>
             </div>
-            <TierSelector />
+            <TierSelector activeId={activeTierId} onSelect={setActiveTierId} />
+            <TierConfiguration key={activeTier.id} tier={activeTier} />
           </div>
         </section>
 
-        <section className="f1-feel" aria-labelledby="f1-feel-title">
-          <div className="f1-feel__stage">
-            <div className="f1-feel__media" aria-hidden="true">
-              <img
-                src="/images/f1/driver-closeup.webp"
-                alt=""
-                width="1600"
-                height="1067"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <div className="f1-feel__shade" aria-hidden="true" />
+        {activeTierId === 'corsa' && (
+          <section className="f1-feel" aria-labelledby="f1-feel-title">
+            <div className="f1-feel__stage">
+              <div className="f1-feel__media" aria-hidden="true">
+                <img
+                  src="/images/f1/driver-closeup.webp"
+                  alt=""
+                  width="1600"
+                  height="1067"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div className="f1-feel__shade" aria-hidden="true" />
 
-            <div className="f1-feel__content">
-              <h2 id="f1-feel-title" aria-label="The rig disappears. The drive takes over.">
-                {immersionWords.map((word, index) => (
-                  <span className="f1-feel__word" aria-hidden="true" key={`${word}-${index}`}>{word} </span>
-                ))}
-              </h2>
-              <div className="f1-feel__facts">
-                <div>
-                  <span>Vision</span>
-                  <strong>Display chosen around your preferred field of view.</strong>
-                </div>
-                <div>
-                  <span>Control</span>
-                  <strong>Feedback matched to the way you drive.</strong>
-                </div>
-                <div>
-                  <span>Position</span>
-                  <strong>Seat, wheel and pedals aligned as one.</strong>
+              <div className="f1-feel__content">
+                <h2 id="f1-feel-title" aria-label="The rig disappears. The drive takes over.">
+                  {immersionWords.map((word, index) => (
+                    <span className="f1-feel__word" aria-hidden="true" key={`${word}-${index}`}>{word} </span>
+                  ))}
+                </h2>
+                <div className="f1-feel__facts">
+                  <div>
+                    <span>Vision</span>
+                    <strong>49-inch OLED fills the peripheral view.</strong>
+                  </div>
+                  <div>
+                    <span>Control</span>
+                    <strong>Formula inputs meet smooth dual-belt feedback.</strong>
+                  </div>
+                  <div>
+                    <span>Position</span>
+                    <strong>Seat, wheel and pedals lock into one driving position.</strong>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        <section className="f1-hardware" id="hardware" aria-labelledby="f1-hardware-title">
-          <div className="f1-shell">
-            <div className="f1-hardware__heading" data-f1-reveal>
-              <h2 id="f1-hardware-title">
-                One rig.
-                <span className="f1-inline-wheel" aria-hidden="true">
-                  <img src="/images/f1/thrustmaster-sf1000.png" alt="" />
-                </span>
-                No weak links.
-              </h2>
-              <p>PC, display and controls are specified together so latency, feedback and ergonomics feel coherent.</p>
-            </div>
-
-            <div className="f1-hardware-grid">
-              {hardware.map((item, index) => (
-                <article className={`f1-hardware-card f1-hardware-card--${index + 1}`} key={item.name}>
-                  <div className="f1-hardware-card__media">
-                    <span className="f1-hardware-card__role">{item.role}</span>
-                    <img
-                      src={item.image}
-                      alt={item.alt}
-                      width={item.width}
-                      height={item.height}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                  <div className="f1-hardware-card__content">
-                    <p>{item.type}</p>
-                    <h3>{item.name}</h3>
-                    <div className="f1-hardware-card__stats">
-                      {item.stats.map((stat) => <span key={stat}>{stat}</span>)}
-                    </div>
-                    <a href={item.href} target="_blank" rel="noreferrer">
-                      Product details <ArrowUpRight weight="bold" />
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            <p className="f1-compatibility-note" data-f1-reveal>
-              The Ferrari SF1000 mounts directly to the T300RS GT base through its native screw quick-release system. The T300RS GT set also includes the T3PA-GT three-pedal set; fit the SF1000 in place of the supplied GT rim.
-            </p>
-          </div>
-        </section>
+          </section>
+        )}
 
         <section className="f1-finale" aria-labelledby="f1-finale-title">
           <div className="f1-finale__media" aria-hidden="true">

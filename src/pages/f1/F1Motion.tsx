@@ -72,92 +72,6 @@ export default function F1Motion() {
       });
     });
 
-    const media = gsap.matchMedia();
-
-    media.add('(min-width: 901px)', () => {
-      const words = gsap.utils.toArray<HTMLElement>('.f1-feel__word');
-      gsap.set(words, { opacity: 0.12 });
-      gsap.set('.f1-feel__facts', { opacity: 0, y: 36 });
-
-      const immersion = gsap.timeline({
-        scrollTrigger: {
-          trigger: '.f1-feel__stage',
-          start: 'top top',
-          end: '+=150%',
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-        },
-      });
-
-      immersion
-        .fromTo(
-          '.f1-feel__media img',
-          { scale: 0.86, filter: 'saturate(0.55) brightness(0.58)' },
-          { scale: 1.08, filter: 'saturate(1) brightness(0.8)', ease: 'none' },
-          0,
-        )
-        .to(words, { opacity: 1, stagger: 0.09, ease: 'none' }, 0.08)
-        .to('.f1-feel__facts', { opacity: 1, y: 0, ease: 'power2.out' }, 0.74);
-    });
-
-    media.add('(max-width: 900px)', () => {
-      gsap.from('.f1-feel__word', {
-        opacity: 0.12,
-        stagger: 0.06,
-        duration: 0.7,
-        scrollTrigger: {
-          trigger: '.f1-feel__content',
-          start: 'top 78%',
-          once: true,
-        },
-      });
-    });
-
-    gsap.utils.toArray<HTMLElement>('.f1-hardware-card').forEach((card) => {
-      const image = card.querySelector('img');
-      const content = card.querySelector('.f1-hardware-card__content');
-
-      gsap.from(card, {
-        opacity: 0,
-        y: 54,
-        duration: 0.95,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 88%',
-          once: true,
-        },
-      });
-
-      if (image) {
-        gsap.fromTo(image, { scale: 0.82 }, {
-          scale: 1.04,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 0.9,
-          },
-        });
-      }
-
-      if (content) {
-        gsap.from(content, {
-          opacity: 0,
-          y: 24,
-          duration: 0.75,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: content,
-            start: 'top 91%',
-            once: true,
-          },
-        });
-      }
-    });
-
     gsap.fromTo(
       '.f1-finale__media img',
       { scale: 1.16, yPercent: -5 },
@@ -174,7 +88,6 @@ export default function F1Motion() {
       },
     );
 
-    return () => media.revert();
   }, []);
 
   return null;
